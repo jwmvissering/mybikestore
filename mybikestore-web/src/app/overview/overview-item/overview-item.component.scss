@@ -1,0 +1,15 @@
+@import "variables";
+
+.overview-item {
+  background-color: white;
+  border-left: 6px solid #bd0202;
+
+  &:hover {
+    background-color: $gray-200;
+    cursor: pointer;
+  }
+
+  .item-title {
+    font-weight: 500;
+  }
+}

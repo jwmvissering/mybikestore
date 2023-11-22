@@ -1,0 +1,10 @@
+@import "variables";
+
+.back-button {
+  color: $body-color;
+  text-decoration: none;
+  margin-top: -.5rem;
+  &:hover {
+    text-decoration: underline;
+  }
+}

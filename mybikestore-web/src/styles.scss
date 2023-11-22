@@ -1,1 +1,53 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'variables';
+@import 'bootstrap/scss/bootstrap';
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body, html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.bg-blue-dark {
+  background-color: $blue-dark;
+}
+
+.text-muted-light {
+  color: $gray-600;
+}
+
+.quantity-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  color: white;
+
+  &.success {
+    background-color: rgba($success, .7);
+  }
+
+  &.warning {
+    background-color: rgba($warning, .7);
+  }
+
+  &.danger {
+    background-color: rgba($danger, .7);
+  }
+}
+
+.btn {
+  border-radius: 4px;
+  font-size: .9rem;
+  font-weight: 500;
+
+  &.btn-blue-light {
+    background-color: $blue-light;
+    color: white;
+
+    &:hover, &:active, &:focus {
+      background-color: darken($blue-light, 5);
+    }
+  }
+}

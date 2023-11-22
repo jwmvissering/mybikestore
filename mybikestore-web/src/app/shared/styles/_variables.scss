@@ -1,0 +1,43 @@
+$blue-light: #0088FF;
+$blue-dark: #0d2538;
+$blue-darker: #00192d;
+$black: #1c1c1c;
+
+$success: #00a489;
+$warning: #ffca28;
+$danger: red;
+
+$navbar-height: 80px;
+
+// Bootstrap
+$body-bg: rgba(238, 244, 250,1.0);
+$enable-smooth-scroll: false;
+$title-font-family: 'Heebo', sans-serif;
+$font-family-base: 'Inter', sans-serif;
+$body-color: $black;
+$btn-padding-y: 5px;
+$btn-padding-x: 15px;
+$btn-border-radius: 12px;
+$font-weight-bolder: 500;
+$headings-font-weight: 600;
+$h2-font-size: 22px;
+$navbar-dark-bg: $blue-dark;
+
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #6c757d;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1500px
+);
