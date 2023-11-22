@@ -1,3 +1,4 @@
+@import "material";
 @import 'variables';
 @import 'bootstrap/scss/bootstrap';
 @import url('https://fonts.googleapis.com/css2?family=Heebo:wght@700&display=swap');
@@ -9,6 +10,10 @@ body, html {
 
 body {
   margin: 0;
+}
+
+.label-primary{
+  font-weight: 500;
 }
 
 .bg-blue-dark {

@@ -9,6 +9,22 @@
     cursor: pointer;
   }
 
+  .item-image {
+    border: 1px solid $gray-600;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 36px;
+    height: 36px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      overflow-clip-margin: unset;
+      overflow: visible;
+    }
+  }
+
   .item-title {
     font-weight: 500;
   }

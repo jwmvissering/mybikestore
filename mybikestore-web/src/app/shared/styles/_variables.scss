@@ -5,7 +5,7 @@ $black: #1c1c1c;
 
 $success: #00a489;
 $warning: #ffca28;
-$danger: red;
+$danger: #D11149;
 
 $navbar-height: 80px;
 
@@ -40,4 +40,13 @@ $grid-breakpoints: (
   lg: 992px,
   xl: 1200px,
   xxl: 1500px
+);
+
+$display-font-sizes: (
+  1: 4rem,
+  2: 3.5rem,
+  3: 3rem,
+  4: 2.5rem,
+  5: 2rem,
+  6: 1.5rem
 );
