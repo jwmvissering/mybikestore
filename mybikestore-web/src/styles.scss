@@ -12,7 +12,7 @@ body {
   margin: 0;
 }
 
-.label-primary{
+.label-primary {
   font-weight: 500;
 }
 
@@ -22,6 +22,11 @@ body {
 
 .text-muted-light {
   color: $gray-600;
+}
+
+.a-unstyled {
+  text-decoration: inherit;
+  color: inherit;
 }
 
 .quantity-badge {

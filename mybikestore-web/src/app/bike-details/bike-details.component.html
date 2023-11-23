@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="mb-3">
+    <app-back-button></app-back-button>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-3">{{ bike?.name ?? 'Bike not found' }}</h1>
+    <div *ngIf="bike" class="d-flex align-items-center gap-4 mb-3">
+      {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
+      <i class="fa-solid fa-trash-can text-danger"></i>
+      <button type="button" class="btn btn-blue-light">Edit bike</button>
+    </div>
+  </div>
+
+  <div *ngIf="bike" class="bg-white mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2">
+    <div class="row gx-5">
+      <div class="col-xl-3">
+        <div class="item-image-xl mb-5">
+          <img [ngSrc]="bike.image" height="300" width="500" [alt]="bike.name">
+        </div>
+        <div class="mb-2">
+          <label class="label-primary">Quantity in stock</label>
+          <div class="d-flex gap-2 mb-2 align-items-center">
+            <button type="button" class="btn btn-primary quantity-btn">-</button>
+            <div class="display-6">{{ bike.quantity_in_stock }}</div>
+            <button type="button" class="btn btn-primary quantity-btn">+</button>
+          </div>
+          <div class="mb-2">
+            <label class="label-primary">Price</label>
+            <div class="price-value">{{ bike.price | currency:'CAD' }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="mb-2">
+          <label class="label-primary">Brand</label>
+          <div class="value">{{ bike.brand?.name }}</div>
+        </div>
+        <div class="mb-2">
+          <label class="label-primary">Model</label>
+          <div class="value">{{ bike.model }}</div>
+        </div>
+        <div class="mb-2">
+          <label class="label-primary">Description</label>
+          <p [innerHTML]="bike.description"></p>
+        </div>
+        <div class="mb-2">
+          <label class="label-primary">Bike type</label>
+          <div class="value">{{ bike.category?.name }}</div>
+        </div>
+        <ng-container *ngIf="bike.category?.name === 'Electric bike'"> <!-- todo: replace with enum -->
+          <div class="mb-2">
+            <label class="label-primary">Battery</label>
+            <div class="value">{{ bike.battery_in_wh }} Wh</div>
+          </div>
+          <div class="mb-2">
+            <label class="label-primary">Range</label>
+            <div class="value">{{ bike.range_in_km }} km</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

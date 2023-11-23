@@ -1,32 +1,31 @@
-<div routerLink="/1" class="overview-item py-2 px-3 mb-1 rounded-2">
+<a [routerLink]="[bike.id]" class="overview-item py-2 px-3 mb-1 rounded-2 d-block a-unstyled">
   <div class="row align-items-center justify-content-between gx-4">
     <div class="col-auto d-flex gap-3 align-items-center">
       <div class="item-image">
-        <img
-          src="/assets/images/diamondback-interurban-700c-h-green-m--7d581001-ea4a-4a18-ad33-caab17ce1956-jpgrendition.jpg"
-          alt="Diamondback Interurban 700c">
+        <img [ngSrc]="bike.image" width="60" height="34" alt="Diamondback Interurban 700c">
       </div>
       <div class="item-title">
-        Diamondback Interurban 700c
+        {{ bike.name }}
       </div>
     </div>
     <div class="col">
       <div class="row align-items-center justify-content-end gx-4">
-        <div class="col-auto">
+        <div *ngIf="bike.category" class="col-auto">
           <i class="fa-solid fa-tag me-1 text-muted-light" matTooltip="Type" matTooltipPosition="above"></i>
-          Hybrid bike
+          {{ bike.category.name }}
         </div>
-        <div class="col-auto">
-          <i class="fa-solid fa-money-bill-wave me-1 text-muted-light" matTooltip="Price" matTooltipPosition="above"></i>
-          $399,99
+        <div *ngIf="bike.price" class="col-auto">
+          <i class="fa-solid fa-money-bill-wave me-1 text-muted-light" matTooltip="Price"
+             matTooltipPosition="above"></i>
+          {{ bike.price | currency:'CAD'}}
         </div>
         <div class="col-auto d-flex flex-row align-items-center">
           <i class="fa-solid fa-cubes me-2 text-muted-light" matTooltip="Quantity" matTooltipPosition="above"></i>
-          <div class="quantity-badge success flex-grow-0">
-            2
+          <div class="quantity-badge flex-grow-0" [ngClass]="bike.stockQuantityColor">
+            {{ bike.quantity_in_stock }}
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</a>

@@ -6,12 +6,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
-  selector: 'app-overview-filter',
+  selector: 'app-inventory-filter',
   standalone: true,
   imports: [CommonModule, MatFormFieldModule, MatCheckboxModule, MatSelectModule, MatInputModule],
-  templateUrl: './overview-filter.component.html',
-  styleUrl: './overview-filter.component.scss'
+  templateUrl: './inventory-filter.component.html',
+  styleUrl: './inventory-filter.component.scss'
 })
-export class OverviewFilterComponent {
+export class InventoryFilterComponent {
 
 }

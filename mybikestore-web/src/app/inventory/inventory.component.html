@@ -1,0 +1,14 @@
+<div class="container">
+  <h1 class="mb-4">Inventory management</h1>
+  <app-inventory-filter></app-inventory-filter>
+
+  <div class="mt-2 mb-5">
+    <ng-container *ngIf="bikes?.length; else noBikes">
+      <app-inventory-list-item *ngFor="let bike of bikes" [bike]="bike"></app-inventory-list-item>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #noBikes>
+  <p class="fst-italic">There are no bikes in your inventory.</p>
+</ng-template>
