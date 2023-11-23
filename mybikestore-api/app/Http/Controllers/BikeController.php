@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BikeResource;
 use App\Models\Bike;
+use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BikeController extends Controller
 {
@@ -24,7 +27,7 @@ class BikeController extends Controller
      */
     public function index()
     {
-        return Bike::all();
+        return BikeResource::collection(Bike::all());
     }
 
     /**
@@ -32,9 +35,15 @@ class BikeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->validationRules);
-        $bike = Bike::create($request->all());
-        return response()->json($bike, 201);
+        try {
+            $request->validate($this->validationRules);
+            $bike = Bike::create($request->all());
+            return (new BikeResource($bike))
+                ->response()
+                ->setStatusCode(201);
+        } catch (Exception $exception) {
+            throw new HttpException(400, "Could not create bike - {$exception->getMessage()}");
+        }
     }
 
     /**
@@ -42,7 +51,7 @@ class BikeController extends Controller
      */
     public function show(Bike $bike)
     {
-        return response()->json($bike);
+        return new BikeResource($bike);
     }
 
     /**
@@ -52,7 +61,7 @@ class BikeController extends Controller
     {
         $request->validate($this->validationRules);
         $bike->update([$request->all()]);
-        return response()->json($bike);
+        return new BikeResource($bike);
     }
 
     /**

@@ -9,4 +9,5 @@ enum CategoryEnum: string
     case hybridBike = 'Hybrid bike';
     case mountainBike = 'Mountain bike';
     case racingBike = 'Racing bike';
+    case kidsBike = 'Kids bike';
 }
