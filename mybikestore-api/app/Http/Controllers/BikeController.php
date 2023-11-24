@@ -16,10 +16,10 @@ class BikeController extends Controller
         'image' => 'nullable',
         'brand_id' => 'nullable|numeric',
         'category_id' => 'nullable|numeric',
-        'quantity_in_stock' => 'nullable',
+        'quantity_in_stock' => 'nullable|numeric',
         'price' => 'nullable|numeric|between:0,99999.99',
-        'wh_of_motor' => 'nullable',
-        'range_in_km' => 'nullable',
+        'wh_of_motor' => 'nullable|numeric',
+        'range_in_km' => 'nullable|numeric',
     ];
 
     /**
@@ -61,6 +61,18 @@ class BikeController extends Controller
     {
         $request->validate($this->validationRules);
         $bike->update([$request->all()]);
+        return new BikeResource($bike);
+    }
+
+    /**
+     * Update the quantity of the bike.
+     */
+    public function updateQuantity(Request $request, Bike $bike)
+    {
+        $request->validate([
+            'quantity_in_stock' => 'nullable|numeric',
+        ]);
+        $bike->update(['quantity_in_stock' => $request->quantity_in_stock]);
         return new BikeResource($bike);
     }
 

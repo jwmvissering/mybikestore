@@ -25,6 +25,7 @@ Route::get('bikes', [BikeController::class, 'index']);
 Route::post('bikes', [BikeController::class, 'store']);
 Route::get('bikes/{bike}', [BikeController::class, 'show']);
 Route::put('bikes/{bike}', [BikeController::class, 'update']);
+Route::patch('bikes/{bike}/quantity', [BikeController::class, 'updateQuantity']);
 Route::delete('bikes/{bike}', [BikeController::class, 'destroy']);
 
 Route::get('categories', [CategoryController::class, 'index']);
