@@ -24,7 +24,7 @@ class BikeFactory extends Factory
             'image' => null,
             'brand_id' => rand(0, 10),
             'category_id' => rand(0, 4),
-            'quantity_in_stock' => rand(0, 6),
+            'quantity_in_stock' => rand(0, 4),
             'price' => rand(299, 1200),
             'wh_of_motor' => null,
             'range_in_km' => null,

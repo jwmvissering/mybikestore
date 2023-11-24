@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +26,7 @@ Route::post('bikes', [BikeController::class, 'store']);
 Route::get('bikes/{bike}', [BikeController::class, 'show']);
 Route::put('bikes/{bike}', [BikeController::class, 'update']);
 Route::delete('bikes/{bike}', [BikeController::class, 'destroy']);
+
+Route::get('categories', [CategoryController::class, 'index']);
+Route::get('brands', [BrandController::class, 'index']);
+

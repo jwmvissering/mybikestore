@@ -17,6 +17,9 @@ class BikeSeeder extends Seeder
         $this->addDiamondBackBikes();
         $this->addGazelleBikes();
         $this->addGiantBikes();
+        $this->addSpecializedBikes();
+        $this->addLinusBikes();
+        $this->addVanMoofBikes();
     }
 
     private function addGazelleBikes(): void {
@@ -66,11 +69,59 @@ class BikeSeeder extends Seeder
         $brandId = Brand::where('name', 'Giant')->first()->id;
 
         Bike::factory([
-            'model' => 'REIGN ADVANCED PRO 29 1',
+            'model' => 'Reign advanced pro 29 1',
             'brand_id' => $brandId,
             'description' => 'Maestro rear suspension developed and tested under extreme conditions of Enduro World Series races. The trunnion mount shock has a longer stroke and smoother feel, and the Advanced Forged Composite upper rocker arm adds stiffness while lowering overall frame weight. The purpose-built composite frameset helps you ride aggressive descents and rail corners with confidence. Enduro-optimized head and seattube angles, plus a 170mm fork with 44mm offset, produce confident front-end handling. Larger 29-inch diameter wheels optimized to roll over rugged enduro terrain with improved balance and stability, giving you the momentum to crank up tough climbs and the confidence to fly on fast, technical descents.',
             'image' => '/uploads/fixtures/GiantReignAdvancedPro291_ColorAAmberGlow.jpg',
             'price' => 6999
         ])->setCategory(CategoryEnum::mountainBike)->create();
+    }
+
+    private function addSpecializedBikes(): void {
+        $brandId = Brand::where('name', 'Specialized')->first()->id;
+
+        Bike::factory([
+            'model' => 'Roll 2.0 Bike',
+            'brand_id' => $brandId,
+            'description' => 'All barn-burner and no benchwarmer, the Rockhopper Sport throws out the playbook when it comes to putting performance points on the board while playing some serious defense on behalf of your wallet. A heart of gold, presented in our lightweight yet durable Premium A1 Aluminum, the Rockhopper’s butted aluminum frame features hydroformed top and downtubes in order to keep weight low and strength high, all while providing increased standover clearance, slick internal cable routing and dropper-post compatibility.',
+            'image' => '/uploads/fixtures/specialized.png',
+            'price' => 594.99
+        ])->setCategory(CategoryEnum::hybridBike)->create();
+    }
+
+    private function addLinusBikes(): void {
+        $brandId = Brand::where('name', 'Linus')->first()->id;
+
+        Bike::factory([
+            'model' => 'Dutchi 3-speed',
+            'brand_id' => $brandId,
+            'description' => 'Following the geometry of a classic Dutch bike, the Linus Dutchi puts you in the bolt-upright position favoured by European riders from Amsterdam to Copenhagen. It\'s super comfortable on short rides under 10km and lets you take in the sights and sounds of the world around you. Loaded with features, the Dutchi 3-Speed at its heart is a strong hi-ten steel frame with durable double-walled wheels made for cities. The bike comes fully equipped with fenders, kickstand and a beautiful high-polish rear rack. The wheels use heavy duty 13 gauge spokes on the rear to handle potholes and heavy panniers. Finally, the 3-speed internal gear hub gives a nice range of gears for flatter or mildly sloped terrain, all in a sealed package that protects it from rain and foul weather. Designed in California, the Dutchi is not quite as robust as our European produced Achielle or Fahrradmanufaktur bikes but is the perfect bike if you ride primarily in the Spring, Summer or Fall. However, we do recommend indoor overnight storage to prevent issues like corrosion.',
+            'image' => '/uploads/fixtures/linus-dutchi.png',
+            'price' => 899.99
+        ])->setCategory(CategoryEnum::cityBike)->create();
+    }
+
+    private function addVanMoofBikes(): void {
+        $brandId = Brand::where('name', 'VanMoof')->first()->id;
+
+        Bike::factory([
+            'model' => 'S5',
+            'brand_id' => $brandId,
+            'description' => 'Rule the road with the VanMoof S5. Perfect for controlled cruising and longer rides. Revolutionary riding made easy. Throw away the manual, the Halo Ring Interface has got you covered. LED light rings on your handlebars communicate all the information you need clearly within your eye-line, so your focus is never off the road ahead. Mount your phone to the handlebars and use the VanMoof app while you’re on the move. Track your current speed, ride duration, and distance while you ride – and look back at your ride history to see how many kilometers you’ve crunched that month. Oh, and you can keep your phone nicely charged up here, too.',
+            'image' => '/uploads/fixtures/vanmoof-s5.jpg',
+            'price' => 5480,
+            'wh_of_motor' => 487,
+            'range_in_km' => 150
+        ])->setCategory(CategoryEnum::electricBike)->create();
+
+        Bike::factory([
+            'model' => 'A5',
+            'brand_id' => $brandId,
+            'description' => 'Play the street with the VanMoof A5. Perfect for pit stops and agile city rides. Revolutionary riding made easy. Throw away the manual, the Halo Ring Interface has got you covered. LED light rings on your handlebars communicate all the information you need clearly within your eye-line, so your focus is never off the road ahead. Mount your phone to the handlebars and use the VanMoof app while you’re on the move. Track your current speed, ride duration, and distance while you ride – and look back at your ride history to see how many kilometers you’ve crunched that month. Oh, and you can keep your phone nicely charged up here, too.',
+            'image' => '/uploads/fixtures/vanmoof-a5.jpg',
+            'price' => 5480,
+            'wh_of_motor' => 487,
+            'range_in_km' => 150
+        ])->setCategory(CategoryEnum::electricBike)->create();
     }
 }
