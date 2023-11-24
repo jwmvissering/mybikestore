@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map, Observable, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
@@ -10,12 +10,9 @@ import {environment} from '../../../environments/environment';
 })
 export class BikeService {
   private entityPath: string = 'bikes';
-  public bikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
+  public bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
   public filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
-  private filters:{
-    brand: number | null,
-    category: number | null,
-  } = {
+  private filters: { brand: number | null, category: number | null, } = {
     brand: null,
     category: null,
   };
@@ -24,10 +21,14 @@ export class BikeService {
   }
 
   getBikes(): Observable<BikeModel[]> {
+    return this.bikes;
+  }
+
+  getFilteredBikes(): Observable<BikeModel[]> {
     return this.filteredBikes;
   }
 
-  loadBikesIntoCache(): Observable<BikeModel[]> {
+  getBikesFromApi(): Observable<BikeModel[]> {
     return this.http.get<RequestObject<BikeModel[]>>(environment.apiUrl + this.entityPath)
       .pipe(
         map((data: RequestObject<BikeModel[]>) => data.data),
@@ -62,18 +63,44 @@ export class BikeService {
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
 
-    return this.http.post<RequestObject<BikeModel>>(environment.apiUrl + this.entityPath + '/' + id, data, {
-      params: {_method: 'PATCH'},
-      headers
-    })
+    return this.http.post<RequestObject<BikeModel>>(environment.apiUrl + this.entityPath + '/' + id, data,
+      {params: {_method: 'PATCH'}, headers})
       .pipe(
         map((data: RequestObject<BikeModel>) => data.data),
-        map((bike: any) => new BikeModel(bike))
+        map((bike: any) => new BikeModel(bike)),
+        tap((updatedBike: BikeModel) => this.updateSavedBikesWithUpdatedBike(updatedBike))
+      );
+  }
+
+  changeQuantity(id: number, quantity: number) {
+    const headers = new HttpHeaders();
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+
+    return this.http.post<RequestObject<BikeModel>>(environment.apiUrl + this.entityPath + '/' + id + '/quantity', {
+      quantity_in_stock: quantity
+    }, {params: {_method: 'PATCH'}, headers})
+      .pipe(
+        map((data: RequestObject<BikeModel>) => data.data),
+        map((bike: any) => new BikeModel(bike)),
+        tap((updatedBike: BikeModel) => this.updateSavedBikesWithUpdatedBike(updatedBike))
       );
   }
 
   deleteBike(id: number): Observable<void> {
     return this.http.delete<any>(environment.apiUrl + this.entityPath + '/' + id);
+  }
+
+  updateSavedBikesWithUpdatedBike(updatedBike: BikeModel): void {
+    const currentBikes: BikeModel[] = this.bikes.getValue();
+    // Find the index of the bike to be updated
+    const index = currentBikes.findIndex((bike) => bike.id === updatedBike.id);
+    if (index !== -1) {
+      // If the bike is found, update it in the array
+      this.bikes.getValue()[index] = updatedBike;
+      // Update the observable with the modified array
+      this.bikes.next([...currentBikes]);
+    }
   }
 
   setBrandFilter(brandId: number | null) {
@@ -91,7 +118,6 @@ export class BikeService {
       this.filteredBikes.next(bikes.filter(bike => {
         const brandMatch = this.filters.brand === null || bike.brand?.id === this.filters.brand;
         const categoryMatch = this.filters.category === null || bike.category?.id === this.filters.category;
-
         return brandMatch && categoryMatch;
       }));
     });

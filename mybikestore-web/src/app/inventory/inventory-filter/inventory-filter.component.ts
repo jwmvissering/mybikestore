@@ -29,12 +29,10 @@ export class InventoryFilterComponent {
   setBrandFilter(event: MatSelectChange) {
     const selectedBrand = event.value;
     this.bikeService.setBrandFilter(selectedBrand);
-    console.log(selectedBrand);
   }
 
   setCategoryFilter(event: MatSelectChange) {
     const selectedCategory = event.value;
     this.bikeService.setCategoryFilter(selectedCategory);
-    console.log(selectedCategory);
   }
 }

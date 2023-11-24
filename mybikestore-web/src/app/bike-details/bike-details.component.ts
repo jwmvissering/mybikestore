@@ -76,4 +76,18 @@ export class BikeDetailsComponent implements OnInit {
       }
     })
   }
+
+  lowerQuantity() {
+    this.bike!.quantity_in_stock--;
+    this.bikeService.changeQuantity(this.bike!.id, this.bike!.quantity_in_stock).subscribe(() => {
+      this.snackbarService.openSnackbar('The quantity has been updated', snackBarClass.success);
+    });
+  }
+
+  addQuantity() {
+    this.bike!.quantity_in_stock++;
+    this.bikeService.changeQuantity(this.bike!.id, this.bike!.quantity_in_stock).subscribe(() => {
+      this.snackbarService.openSnackbar('The quantity has been updated', snackBarClass.success);
+    });
+  }
 }

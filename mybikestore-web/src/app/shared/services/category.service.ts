@@ -19,7 +19,7 @@ export class CategoryService {
     return this.categories;
   }
 
-  loadCategoriesIntoCache(): Observable<CategoryModel[]> {
+  getCategoriesFromApi(): Observable<CategoryModel[]> {
     return this.http.get<RequestObject<CategoryModel[]>>(environment.apiUrl + this.entityPath)
       .pipe(
         map((data: RequestObject<CategoryModel[]>) => data.data),

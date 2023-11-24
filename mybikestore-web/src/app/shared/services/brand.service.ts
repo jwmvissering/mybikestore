@@ -19,7 +19,7 @@ export class BrandService {
     return this.brands;
   }
 
-  loadBrandsIntoCache(): Observable<BrandModel[]> {
+  getBrandsFromApi(): Observable<BrandModel[]> {
     return this.http.get<RequestObject<BrandModel[]>>(environment.apiUrl + this.entityPath)
       .pipe(
         map((data: RequestObject<BrandModel[]>) => data.data),

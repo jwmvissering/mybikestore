@@ -7,7 +7,7 @@ import {BikeModel} from "../models/bike.model";
   providedIn: 'root'
 })
 export class StatisticsService {
-  statistics: ReplaySubject<Statistics> = new ReplaySubject<Statistics>(1);
+  statistics: ReplaySubject<Statistics> = new ReplaySubject<Statistics>();
 
   constructor(private bikeService: BikeService) {
   }
@@ -20,9 +20,9 @@ export class StatisticsService {
   setStatistics(): void {
     this.bikeService.getBikes().subscribe((bikes: BikeModel[]) => {
       this.statistics.next({
-        totalValue: this.getTotalValue(bikes),
-        totalItems: this.getTotalItems(bikes),
-        outOfStock: this.getOutOfStock(bikes)
+        totalValue: bikes.length ? this.getTotalValue(bikes) : 0,
+        totalItems: bikes.length ? this.getTotalItems(bikes) : 0,
+        outOfStock: bikes.length ? this.getOutOfStock(bikes) : 0
       })
     })
   }

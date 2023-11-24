@@ -4,7 +4,6 @@ import {StatisticsComponent} from "../layout-container/statistics/statistics.com
 import {InventoryFilterComponent} from "./inventory-filter/inventory-filter.component";
 import {InventoryListItemComponent} from "./inventory-list-item/inventory-list-item.component";
 import {BikeService} from "../shared/services/bike.service";
-import {take} from "rxjs";
 import {BikeModel} from "../shared/models/bike.model";
 import {BrandService} from "../shared/services/brand.service";
 import {CategoryService} from "../shared/services/category.service";
@@ -23,16 +22,14 @@ export class InventoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bikeService.loadBikesIntoCache().pipe(take(1)).subscribe(() => {
-      this.getBikes();
-    });
+    this.getBikes();
   }
 
   getBikes() {
-    this.bikeService.getBikes().subscribe((bikes: BikeModel[]) => {
+    this.bikeService.getFilteredBikes().subscribe((bikes: BikeModel[]) => {
       this.bikes = bikes;
-      this.brandsService.loadBrandsIntoCache().subscribe();
-      this.categoryService.loadCategoriesIntoCache().subscribe();
+      this.brandsService.getBrandsFromApi().subscribe();
+      this.categoryService.getCategoriesFromApi().subscribe();
     })
   }
 }
