@@ -18,7 +18,7 @@ class BikeController extends Controller
         'category_id' => 'nullable|numeric',
         'quantity_in_stock' => 'nullable',
         'price' => 'nullable|numeric|between:0,99999.99',
-        'battery_in_wh' => 'nullable',
+        'wh_of_motor' => 'nullable',
         'range_in_km' => 'nullable',
     ];
 

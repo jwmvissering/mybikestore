@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('quantity_in_stock')->default(0);
             $table->decimal('price', 9, 2)->nullable();
-            $table->integer('battery_in_wh')->nullable();
+            $table->integer('wh_of_motor')->nullable();
             $table->integer('range_in_km')->nullable();
             $table->timestamps();
         });

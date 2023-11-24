@@ -21,7 +21,7 @@ class BikeResource extends JsonResource
             'image' => $this->image,
             'quantity_in_stock' => $this->quantity_in_stock,
             'price' => $this->price,
-            'battery_in_wh' => $this->battery_in_wh,
+            'wh_of_motor' => $this->wh_of_motor,
             'range_in_km' => $this->range_in_km,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

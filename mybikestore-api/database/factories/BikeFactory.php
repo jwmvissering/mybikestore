@@ -26,7 +26,7 @@ class BikeFactory extends Factory
             'category_id' => rand(0, 4),
             'quantity_in_stock' => rand(0, 6),
             'price' => rand(299, 1200),
-            'battery_in_wh' => null,
+            'wh_of_motor' => null,
             'range_in_km' => null,
         ];
     }
@@ -36,7 +36,7 @@ class BikeFactory extends Factory
     {
         return $this->state([
             'category_id' => Category::where('name', $category->value)->first()->id,
-            'battery_in_wh' => $category === CategoryEnum::electricBike ? rand(500, 1000) : null,
+            'wh_of_motor' => $category === CategoryEnum::electricBike ? rand(500, 1000) : null,
             'range_in_km' => $category === CategoryEnum::electricBike ? rand(32, 160) : null
         ]);
     }
