@@ -1,0 +1,15 @@
+@import "variables";
+
+snack-bar-container {
+  color: white;
+
+  .snackbar-text {
+    margin-top: -1px;
+    white-space: pre-wrap;
+  }
+
+  .close-icon-container {
+    padding-left: 1.5rem;
+    padding-right: .5rem;
+  }
+}

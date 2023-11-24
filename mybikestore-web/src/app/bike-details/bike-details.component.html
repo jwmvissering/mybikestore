@@ -7,7 +7,7 @@
     <h1 class="mb-3">{{ bike?.name ?? 'Bike not found' }}</h1>
     <div *ngIf="bike" class="d-flex align-items-center gap-4 mb-3">
       {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
-      <i class="fa-solid fa-trash-can text-danger"></i>
+      <a (click)="deleteBike()" type="button"><i class="fa-solid fa-trash-can text-danger"></i></a>
       <button type="button" class="btn btn-blue-light">Edit bike</button>
     </div>
   </div>
@@ -16,7 +16,9 @@
     <div class="row gx-5">
       <div class="col-xl-3">
         <div class="item-image-xl mb-5">
-          <img [ngSrc]="bike.image" height="300" width="500" [alt]="bike.name">
+          <a (click)="openImageDialog()" class="cursor-pointer">
+            <img [src]="bike.image" [alt]="bike.name">
+          </a>
         </div>
         <div class="mb-2">
           <label class="label-primary">Quantity in stock</label>
@@ -27,7 +29,7 @@
           </div>
           <div class="mb-2">
             <label class="label-primary">Price</label>
-            <div class="price-value">{{ bike.price | currency:'CAD' }}</div>
+            <div class="display-6">{{ bike.price | currency:'CAD' }}</div>
           </div>
         </div>
       </div>
@@ -41,17 +43,17 @@
           <div class="value">{{ bike.model }}</div>
         </div>
         <div class="mb-2">
-          <label class="label-primary">Description</label>
-          <p [innerHTML]="bike.description"></p>
-        </div>
-        <div class="mb-2">
           <label class="label-primary">Bike type</label>
           <div class="value">{{ bike.category?.name }}</div>
         </div>
+        <div class="mb-2">
+          <label class="label-primary">Description</label>
+          <p [innerHTML]="bike.description"></p>
+        </div>
         <ng-container *ngIf="bike.category?.name === 'Electric bike'"> <!-- todo: replace with enum -->
           <div class="mb-2">
-            <label class="label-primary">Battery</label>
-            <div class="value">{{ bike.battery_in_wh }} Wh</div>
+            <label class="label-primary">Motor</label>
+            <div class="value">{{ bike.wh_of_motor }} watt</div>
           </div>
           <div class="mb-2">
             <label class="label-primary">Range</label>

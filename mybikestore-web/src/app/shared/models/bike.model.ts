@@ -25,7 +25,7 @@ export class BikeModel {
   image: string;
   quantity_in_stock: number;
   price: number;
-  battery_in_wh: number;
+  wh_of_motor: number;
   range_in_km: number;
   createdAt: Date;
   updatedAt: Date;

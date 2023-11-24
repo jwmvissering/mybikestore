@@ -1,4 +1,4 @@
-<a [routerLink]="[bike.id]" class="overview-item py-2 px-3 mb-1 rounded-2 d-block a-unstyled">
+<a [routerLink]="[bike.id]" class="inventory-list-item py-2 px-3 mb-1 rounded-2 d-block a-unstyled">
   <div class="row align-items-center justify-content-between gx-4">
     <div class="col-auto d-flex gap-3 align-items-center">
       <div class="item-image">
@@ -17,7 +17,7 @@
         <div *ngIf="bike.price" class="col-auto">
           <i class="fa-solid fa-money-bill-wave me-1 text-muted-light" matTooltip="Price"
              matTooltipPosition="above"></i>
-          {{ bike.price | currency:'CAD'}}
+          {{ bike.price | currency:'CAD' }}
         </div>
         <div class="col-auto d-flex flex-row align-items-center">
           <i class="fa-solid fa-cubes me-2 text-muted-light" matTooltip="Quantity" matTooltipPosition="above"></i>

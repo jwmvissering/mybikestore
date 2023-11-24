@@ -16,7 +16,6 @@ $mybikestore-web-theme: mat.define-light-theme((
 
 @include mat.all-component-themes($mybikestore-web-theme);
 
-
 .mat-mdc-text-field-wrapper{
   background-color: #fcfcfc !important;
 }

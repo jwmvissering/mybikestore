@@ -73,7 +73,7 @@ export class BikeService {
       );
   }
 
-  deleteBike(id: string) {
+  deleteBike(id: string): Observable<void> {
     return this.http.delete<any>(environment.apiUrl + this.entityPath + '/' + id);
   }
 }

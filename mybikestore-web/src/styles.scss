@@ -29,6 +29,10 @@ body {
   color: inherit;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .quantity-badge {
   padding: 3px 10px;
   border-radius: 12px;
@@ -58,6 +62,36 @@ body {
 
     &:hover, &:active, &:focus {
       background-color: darken($blue-light, 5);
+    }
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    color: white;
+  }
+}
+
+.snackbar-success {
+  &.mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+      background-color: $success;
+    }
+  }
+}
+
+.snackbar-warning {
+  &.mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+      background-color: $warning;
+    }
+  }
+}
+
+.snackbar-danger {
+  &.mat-mdc-snack-bar-container {
+    .mdc-snackbar__surface {
+      background-color: $danger;
     }
   }
 }

@@ -1,0 +1,11 @@
+<h1 class="dialog-title py-3 px-3 mb-0">{{ title }}</h1>
+<div *ngIf="description" [innerHTML]="description" class="pb-3 px-3"></div>
+<div *ngIf="image" class="image-container pb-3 px-3">
+  <app-bike-image [imagePath]="image" [alt]="title"></app-bike-image>
+</div>
+<div class="buttons d-flex w-100 justify-content-between pb-3 px-3">
+  <button *ngIf="showCancelButton" class="btn btn-light" (click)="dialogRef.close()">{{ cancelButtonText }}</button>
+  <button *ngIf="showContinueButton" class="btn btn-primary"
+          (click)="dialogRef.close(true)">{{ continueButtonText }}
+  </button>
+</div>
