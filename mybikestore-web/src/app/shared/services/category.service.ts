@@ -13,6 +13,7 @@ export class CategoryService {
   public categories: ReplaySubject<CategoryModel[]> = new ReplaySubject<CategoryModel[]>();
 
   constructor(private http: HttpClient) {
+    this.getCategoriesFromApi().subscribe();
   }
 
   getCategories(): Observable<CategoryModel[]> {

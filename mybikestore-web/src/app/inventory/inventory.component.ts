@@ -5,8 +5,6 @@ import {InventoryFilterComponent} from "./inventory-filter/inventory-filter.comp
 import {InventoryListItemComponent} from "./inventory-list-item/inventory-list-item.component";
 import {BikeService} from "../shared/services/bike.service";
 import {BikeModel} from "../shared/models/bike.model";
-import {BrandService} from "../shared/services/brand.service";
-import {CategoryService} from "../shared/services/category.service";
 
 @Component({
   selector: 'app-inventory',
@@ -18,7 +16,7 @@ import {CategoryService} from "../shared/services/category.service";
 export class InventoryComponent implements OnInit {
   bikes: BikeModel[] = [];
 
-  constructor(private bikeService: BikeService, private brandsService: BrandService, private categoryService: CategoryService) {
+  constructor(private bikeService: BikeService) {
   }
 
   ngOnInit(): void {
@@ -26,10 +24,9 @@ export class InventoryComponent implements OnInit {
   }
 
   getBikes() {
-    this.bikeService.getFilteredBikes().subscribe((bikes: BikeModel[]) => {
+    this.bikeService.forceRefresh();
+    this.bikeService.getBikes(true).subscribe((bikes: BikeModel[]) => {
       this.bikes = bikes;
-      this.brandsService.getBrandsFromApi().subscribe();
-      this.categoryService.getCategoriesFromApi().subscribe();
     })
   }
 }

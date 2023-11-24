@@ -13,11 +13,6 @@ export class StatisticsService {
   }
 
   getStatistics(): Observable<Statistics> {
-    this.setStatistics();
-    return this.statistics;
-  }
-
-  setStatistics(): void {
     this.bikeService.getBikes().subscribe((bikes: BikeModel[]) => {
       this.statistics.next({
         totalValue: bikes.length ? this.getTotalValue(bikes) : 0,
@@ -25,6 +20,7 @@ export class StatisticsService {
         outOfStock: bikes.length ? this.getOutOfStock(bikes) : 0
       })
     })
+    return this.statistics;
   }
 
   private getTotalValue(bikes: BikeModel[]) {

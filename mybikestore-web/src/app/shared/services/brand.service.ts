@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {map, Observable, ReplaySubject, tap} from 'rxjs';
+import {map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
 import {BrandModel} from "../models/brand.model";
@@ -13,6 +13,7 @@ export class BrandService {
   public brands: ReplaySubject<BrandModel[]> = new ReplaySubject<BrandModel[]>();
 
   constructor(private http: HttpClient) {
+    this.getBrandsFromApi().subscribe();
   }
 
   getBrands(): Observable<BrandModel[]> {

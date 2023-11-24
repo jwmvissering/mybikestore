@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, map, Observable, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
@@ -10,22 +10,39 @@ import {environment} from '../../../environments/environment';
 })
 export class BikeService {
   private entityPath: string = 'bikes';
-  public bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
-  public filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
-  private filters: { brand: number | null, category: number | null, } = {
+  private bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
+  private filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
+  public filters: { brand: number | null, category: number | null, } = {
     brand: null,
     category: null,
   };
+  private dataLoaded = false;
+  private loading = false;
 
   constructor(private http: HttpClient) {
   }
 
-  getBikes(): Observable<BikeModel[]> {
-    return this.bikes;
+  getBikes(filtered = false): Observable<BikeModel[]> {
+    // If data is not loaded or not already requested, fetch it
+    if (!this.dataLoaded && !this.loading) {
+      this.loading = true;
+      this.getBikesFromApi().pipe(
+        finalize(() => this.loading = false)
+      ).subscribe((bikes) => {
+        this.bikes.next(bikes);
+        this.dataLoaded = true;
+      });
+    }
+
+    if (filtered) {
+      return this.filteredBikes.asObservable();
+    } else {
+      return this.bikes.asObservable();
+    }
   }
 
-  getFilteredBikes(): Observable<BikeModel[]> {
-    return this.filteredBikes;
+  forceRefresh(): void {
+    this.dataLoaded = false;
   }
 
   getBikesFromApi(): Observable<BikeModel[]> {
@@ -33,8 +50,8 @@ export class BikeService {
       .pipe(
         map((data: RequestObject<BikeModel[]>) => data.data),
         map((data: any) => data?.map((bike: BikeModel) => new BikeModel(bike))),
-        tap((data: BikeModel[]) => this.filteredBikes.next(data)),
-        tap((data: BikeModel[]) => this.bikes.next(data))
+        tap((data: BikeModel[]) => this.bikes.next(data)),
+        tap(() => this.updateFilteredBikes()),
       );
   }
 
@@ -115,7 +132,7 @@ export class BikeService {
 
   updateFilteredBikes(): void {
     this.bikes.pipe(take(1)).subscribe((bikes: BikeModel[]) => {
-      this.filteredBikes.next(bikes.filter(bike => {
+      this.filteredBikes.next(bikes.filter((bike: BikeModel) => {
         const brandMatch = this.filters.brand === null || bike.brand?.id === this.filters.brand;
         const categoryMatch = this.filters.category === null || bike.category?.id === this.filters.category;
         return brandMatch && categoryMatch;
