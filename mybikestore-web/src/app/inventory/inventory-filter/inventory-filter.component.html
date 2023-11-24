@@ -17,4 +17,9 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <div *ngIf="filterIsActive" class="col-auto">
+    <div class="d-flex">
+      <a (click)="clearFilters()" class="mt-2 p-2 btn btn-link clear-link text-muted-light">Clear filters</a>
+    </div>
+  </div>
 </div>

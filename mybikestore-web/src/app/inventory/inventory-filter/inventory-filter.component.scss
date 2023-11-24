@@ -3,3 +3,11 @@
 .no-filter-text {
   color: $gray-600;
 }
+
+.clear-link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

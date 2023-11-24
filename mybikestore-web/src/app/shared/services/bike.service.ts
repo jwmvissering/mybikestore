@@ -15,10 +15,10 @@ export class BikeService {
   private filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
   private dataLoaded = false;
   private loading = false;
-  private filters: InventoryFilters = {
+  private filters: BehaviorSubject<InventoryFilters> = new BehaviorSubject<InventoryFilters>({
     brand: null,
     category: null,
-  };
+  });
 
   constructor(private http: HttpClient) {
   }
@@ -122,24 +122,20 @@ export class BikeService {
   }
 
   getFilters(): Observable<{ brand: number | null, category: number | null }> {
-    return of(this.filters);
+    return this.filters;
   }
 
-  setBrandFilter(brandId: number | null) {
-    this.filters.brand = brandId;
-    this.updateFilteredBikes();
-  }
-
-  setCategoryFilter(categoryId: number | null) {
-    this.filters.category = categoryId;
+  setFilters(filters: InventoryFilters): void {
+    this.filters.next(filters);
     this.updateFilteredBikes();
   }
 
   updateFilteredBikes(): void {
+    const filters = this.filters.getValue();
     this.bikes.pipe(take(1)).subscribe((bikes: BikeModel[]) => {
       this.filteredBikes.next(bikes.filter((bike: BikeModel) => {
-        const brandMatch = this.filters.brand === null || bike.brand?.id === this.filters.brand;
-        const categoryMatch = this.filters.category === null || bike.category?.id === this.filters.category;
+        const brandMatch = filters.brand === null || bike.brand?.id === filters.brand;
+        const categoryMatch = filters.category === null || bike.category?.id === filters.category;
         return brandMatch && categoryMatch;
       }));
     });

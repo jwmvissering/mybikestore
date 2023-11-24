@@ -23,19 +23,27 @@ export class InventoryFilterComponent {
   filters!: InventoryFilters;
 
   constructor(private brandService: BrandService, private categoryService: CategoryService, private bikeService: BikeService) {
+    this.bikeService.getFilters().subscribe((filters: InventoryFilters) => this.filters = filters);
     this.brandService.getBrands().subscribe((brands: BrandModel[]) => this.brands = brands);
     this.categoryService.getCategories().subscribe((categories: CategoryModel[]) => this.categories = categories);
-    this.bikeService.getFilters().subscribe((filters: InventoryFilters) => this.filters = filters);
   }
 
-  setBrandFilter(event: MatSelectChange) {
-    const selectedBrand = event.value;
-    this.bikeService.setBrandFilter(selectedBrand);
+  get filterIsActive(): boolean {
+    return !!this.filters.brand || !!this.filters.category;
   }
 
-  setCategoryFilter(event: MatSelectChange) {
-    const selectedCategory = event.value;
-    this.bikeService.setCategoryFilter(selectedCategory);
+  setBrandFilter(event: MatSelectChange): void {
+    this.filters.brand = event.value;
+    this.bikeService.setFilters(this.filters);
+  }
+
+  setCategoryFilter(event: MatSelectChange): void {
+    this.filters.category = event.value;
+    this.bikeService.setFilters(this.filters);
+  }
+
+  clearFilters(): void {
+    this.bikeService.setFilters({brand: null, category: null});
   }
 }
 
