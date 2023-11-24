@@ -1,4 +1,4 @@
-import {Component, signal} from '@angular/core';
+import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectChange, MatSelectModule} from '@angular/material/select';
@@ -20,10 +20,12 @@ import {BikeService} from "../../shared/services/bike.service";
 export class InventoryFilterComponent {
   brands: BrandModel[] = [];
   categories: CategoryModel[] = [];
+  filters!: InventoryFilters;
 
   constructor(private brandService: BrandService, private categoryService: CategoryService, private bikeService: BikeService) {
     this.brandService.getBrands().subscribe((brands: BrandModel[]) => this.brands = brands);
     this.categoryService.getCategories().subscribe((categories: CategoryModel[]) => this.categories = categories);
+    this.bikeService.getFilters().subscribe((filters: InventoryFilters) => this.filters = filters);
   }
 
   setBrandFilter(event: MatSelectChange) {
@@ -35,4 +37,9 @@ export class InventoryFilterComponent {
     const selectedCategory = event.value;
     this.bikeService.setCategoryFilter(selectedCategory);
   }
+}
+
+export interface InventoryFilters {
+  brand: number | null;
+  category: number | null;
 }

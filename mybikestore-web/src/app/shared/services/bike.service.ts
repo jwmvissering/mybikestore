@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, finalize, map, Observable, of, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
+import {InventoryFilters} from "../../inventory/inventory-filter/inventory-filter.component";
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class BikeService {
   private entityPath: string = 'bikes';
   private bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
   private filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
-  public filters: { brand: number | null, category: number | null, } = {
+  private dataLoaded = false;
+  private loading = false;
+  private filters: InventoryFilters = {
     brand: null,
     category: null,
   };
-  private dataLoaded = false;
-  private loading = false;
 
   constructor(private http: HttpClient) {
   }
@@ -118,6 +119,10 @@ export class BikeService {
       // Update the observable with the modified array
       this.bikes.next([...currentBikes]);
     }
+  }
+
+  getFilters(): Observable<{ brand: number | null, category: number | null }> {
+    return of(this.filters);
   }
 
   setBrandFilter(brandId: number | null) {

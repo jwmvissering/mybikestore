@@ -2,7 +2,7 @@
   <div class="col-auto">
     <mat-form-field *ngIf="brands.length">
       <mat-label>Filter by brand</mat-label>
-      <mat-select (selectionChange)="setBrandFilter($event)">
+      <mat-select (selectionChange)="setBrandFilter($event)" [value]="filters.brand">
         <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
         <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
       </mat-select>
@@ -11,7 +11,7 @@
   <div class="col-auto">
     <mat-form-field *ngIf="categories.length">
       <mat-label>Filter by type</mat-label>
-      <mat-select (selectionChange)="setCategoryFilter($event)">
+      <mat-select (selectionChange)="setCategoryFilter($event)" [value]="filters.category">
         <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
         <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
       </mat-select>
