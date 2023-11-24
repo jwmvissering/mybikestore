@@ -35,14 +35,10 @@ export class BikeDetailsComponent implements OnInit {
     })
   }
 
-  getBike(id: string): void {
-    if (this.bikeService.hasCachedBikes) {
-      this.bike = this.bikeService.getBikeFromCache(id);
-    } else {
-      this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
-        this.bike = bike;
-      });
-    }
+  getBike(id: number): void {
+    this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
+      this.bike = bike;
+    });
   }
 
   openImageDialog(): void {
@@ -52,7 +48,7 @@ export class BikeDetailsComponent implements OnInit {
         cancelButtonText: 'Close',
         showContinueButton: false
       },
-      width: '800px',
+      width: '900px',
       maxWidth: '90vw',
       maxHeight: '90vh'
     });
@@ -66,7 +62,7 @@ export class BikeDetailsComponent implements OnInit {
         showContinueButton: true,
         continueButtonText: 'Delete'
       },
-      width: '350px',
+      width: '300px',
       maxWidth: '90vw',
       maxHeight: '90vh'
     });
@@ -75,7 +71,7 @@ export class BikeDetailsComponent implements OnInit {
       if (result) {
         this.bikeService.deleteBike(this.bike!.id).subscribe(() => {
           this.router.navigate(['']).catch();
-          this.snackbarService.openSnackbar('The bike has been deleted', snackBarClass.success);
+          this.snackbarService.openSnackbar(this.bike!.name + ' has been deleted', snackBarClass.success);
         });
       }
     })

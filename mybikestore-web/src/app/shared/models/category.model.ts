@@ -5,6 +5,6 @@ export class CategoryModel {
     Object.assign(this, data);
   }
 
-  id: string;
+  id: number;
   name: string;
 }

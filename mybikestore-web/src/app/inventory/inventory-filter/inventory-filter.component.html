@@ -1,24 +1,19 @@
 <div class="row">
   <div class="col-auto">
-    <mat-form-field>
+    <mat-form-field *ngIf="brands.length">
       <mat-label>Filter by brand</mat-label>
-      <mat-select>
-        <mat-option value="option1">Gazelle</mat-option>
-        <mat-option value="option2">Batavus</mat-option>
-        <mat-option value="option3">Diamondback</mat-option>
-        <mat-option value="option3">Linus</mat-option>
+      <mat-select (selectionChange)="setBrandFilter($event)">
+        <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
+        <mat-option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="col-auto">
-    <mat-form-field>
+    <mat-form-field *ngIf="categories.length">
       <mat-label>Filter by type</mat-label>
-      <mat-select>
-        <mat-option value="option1">Electric bike</mat-option>
-        <mat-option value="option2">City bike</mat-option>
-        <mat-option value="option3">Hybrid bike</mat-option>
-        <mat-option value="option3">Mountain bike</mat-option>
-        <mat-option value="option1">Racing bike</mat-option>
+      <mat-select (selectionChange)="setCategoryFilter($event)">
+        <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>

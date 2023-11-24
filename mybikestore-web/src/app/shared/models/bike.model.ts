@@ -17,7 +17,7 @@ export class BikeModel {
     }
   }
 
-  id: string;
+  id: number;
   model: string;
   description: string;
   brand: BrandModel;

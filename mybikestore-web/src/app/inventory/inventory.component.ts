@@ -6,6 +6,8 @@ import {InventoryListItemComponent} from "./inventory-list-item/inventory-list-i
 import {BikeService} from "../shared/services/bike.service";
 import {take} from "rxjs";
 import {BikeModel} from "../shared/models/bike.model";
+import {BrandService} from "../shared/services/brand.service";
+import {CategoryService} from "../shared/services/category.service";
 
 @Component({
   selector: 'app-inventory',
@@ -17,7 +19,7 @@ import {BikeModel} from "../shared/models/bike.model";
 export class InventoryComponent implements OnInit {
   bikes: BikeModel[] = [];
 
-  constructor(private bikeService: BikeService) {
+  constructor(private bikeService: BikeService, private brandsService: BrandService, private categoryService: CategoryService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +31,8 @@ export class InventoryComponent implements OnInit {
   getBikes() {
     this.bikeService.getBikes().subscribe((bikes: BikeModel[]) => {
       this.bikes = bikes;
-      // console.log(this.bikes);
+      this.brandsService.loadBrandsIntoCache().subscribe();
+      this.categoryService.loadCategoriesIntoCache().subscribe();
     })
   }
 }

@@ -5,6 +5,6 @@ export class BrandModel {
     Object.assign(this, data);
   }
 
-  id: string;
+  id: number;
   name: string;
 }

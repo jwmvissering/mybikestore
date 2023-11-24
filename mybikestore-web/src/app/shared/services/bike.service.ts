@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map, Observable, of, ReplaySubject, tap} from 'rxjs';
+import {map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
@@ -10,18 +10,21 @@ import {environment} from '../../../environments/environment';
 })
 export class BikeService {
   private entityPath: string = 'bikes';
-  private cachedBikes: BikeModel[] = [];
-  private bikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>(); // todo: delete or save cached into replaysubject
+  public bikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
+  public filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
+  private filters:{
+    brand: number | null,
+    category: number | null,
+  } = {
+    brand: null,
+    category: null,
+  };
 
   constructor(private http: HttpClient) {
   }
 
-  public get hasCachedBikes(): boolean {
-    return !!this.cachedBikes.length;
-  }
-
   getBikes(): Observable<BikeModel[]> {
-    return of(this.cachedBikes);
+    return this.filteredBikes;
   }
 
   loadBikesIntoCache(): Observable<BikeModel[]> {
@@ -29,21 +32,17 @@ export class BikeService {
       .pipe(
         map((data: RequestObject<BikeModel[]>) => data.data),
         map((data: any) => data?.map((bike: BikeModel) => new BikeModel(bike))),
-        tap((data: BikeModel[]) => this.cachedBikes = data),
-        tap((data: BikeModel[]) => this.bikes.next(this.cachedBikes))
+        tap((data: BikeModel[]) => this.filteredBikes.next(data)),
+        tap((data: BikeModel[]) => this.bikes.next(data))
       );
   }
 
-  getBike(id: string): Observable<BikeModel> {
+  getBike(id: number): Observable<BikeModel> {
     return this.http.get<RequestObject<BikeModel>>(environment.apiUrl + this.entityPath + '/' + id)
       .pipe(
         map((data: RequestObject<BikeModel>) => data.data),
         map((bike: any) => new BikeModel(bike))
       );
-  }
-
-  getBikeFromCache(id: string): BikeModel | undefined {
-    return this.cachedBikes.find((item) => item.id == id);
   }
 
   createBike(data: FormData): Observable<BikeModel> {
@@ -58,7 +57,7 @@ export class BikeService {
       );
   }
 
-  updateBike(id: string, data: any): Observable<BikeModel> {
+  updateBike(id: number, data: any): Observable<BikeModel> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
@@ -73,7 +72,28 @@ export class BikeService {
       );
   }
 
-  deleteBike(id: string): Observable<void> {
+  deleteBike(id: number): Observable<void> {
     return this.http.delete<any>(environment.apiUrl + this.entityPath + '/' + id);
+  }
+
+  setBrandFilter(brandId: number | null) {
+    this.filters.brand = brandId;
+    this.updateFilteredBikes();
+  }
+
+  setCategoryFilter(categoryId: number | null) {
+    this.filters.category = categoryId;
+    this.updateFilteredBikes();
+  }
+
+  updateFilteredBikes(): void {
+    this.bikes.pipe(take(1)).subscribe((bikes: BikeModel[]) => {
+      this.filteredBikes.next(bikes.filter(bike => {
+        const brandMatch = this.filters.brand === null || bike.brand?.id === this.filters.brand;
+        const categoryMatch = this.filters.category === null || bike.category?.id === this.filters.category;
+
+        return brandMatch && categoryMatch;
+      }));
+    });
   }
 }
