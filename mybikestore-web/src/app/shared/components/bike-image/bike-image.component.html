@@ -1,2 +1,2 @@
-<div *ngIf="!previewImage && !imagePath" class="image-placeholder"></div>
+<div *ngIf="!previewImage && !imagePath" class="image-placeholder"><i class="fa-solid fa-image fa-3x"></i></div>
 <img *ngIf="previewImage || imagePath" [src]="previewImage || imagePath" [alt]="alt" class="bike-image">

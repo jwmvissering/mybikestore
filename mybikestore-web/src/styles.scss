@@ -96,7 +96,7 @@ body {
   }
 }
 
-.form-control {
+.form-control, .form-select {
   &.ng-invalid.ng-touched {
     border: 2px solid $danger;
   }
@@ -104,4 +104,8 @@ body {
 
 .tooltip-sm {
   font-size: 12px !important;
+}
+
+.btn-light {
+  background-color: $gray-light;
 }

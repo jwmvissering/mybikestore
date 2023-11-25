@@ -15,6 +15,7 @@ import {BikeModel} from "../shared/models/bike.model";
 })
 export class InventoryComponent implements OnInit {
   bikes: BikeModel[] = [];
+  hasFilters = false;
 
   constructor(private bikeService: BikeService) {
   }
@@ -27,6 +28,9 @@ export class InventoryComponent implements OnInit {
     this.bikeService.forceRefresh();
     this.bikeService.getBikes(true).subscribe((bikes: BikeModel[]) => {
       this.bikes = bikes;
+      this.bikeService.getFilters().subscribe(filters => {
+        this.hasFilters = Object.values(filters).some(value => !!value);
+      })
     })
   }
 }

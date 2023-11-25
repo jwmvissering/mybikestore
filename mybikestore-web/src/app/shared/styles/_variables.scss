@@ -5,7 +5,7 @@ $black: #1c1c1c;
 $green-dark: #095f59;
 $yellow: #ffd881;
 $red: #D11149;
-
+$gray-light: #EEF4FAFF;
 $success: #00a489;
 $warning: #ffca28;
 $danger: $red;
@@ -13,7 +13,7 @@ $danger: $red;
 $navbar-height: 80px;
 
 // Bootstrap
-$body-bg: rgba(238, 244, 250,1.0);
+$body-bg: $gray-light;
 $enable-smooth-scroll: false;
 $title-font-family: 'Heebo', sans-serif;
 $font-family-base: 'Inter', sans-serif;

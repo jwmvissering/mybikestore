@@ -51,7 +51,7 @@ export class BikeDetailsComponent implements OnInit {
       },
       width: '900px',
       maxWidth: '90vw',
-      maxHeight: '90vh'
+      maxHeight: '80vh'
     });
   }
 
@@ -65,7 +65,7 @@ export class BikeDetailsComponent implements OnInit {
       },
       width: '300px',
       maxWidth: '90vw',
-      maxHeight: '90vh'
+      maxHeight: '80vh'
     });
 
     dialogRef.afterClosed().subscribe(result => {

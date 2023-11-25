@@ -10,5 +10,6 @@
 </div>
 
 <ng-template #noBikes>
-  <p class="fst-italic">There are no bikes in your inventory.</p>
+  <p *ngIf="!hasFilters" class="fst-italic">Oops! Looks like there are no bikes in your inventory</p>
+  <p *ngIf="hasFilters" class="fst-italic">Oops! Looks like there are no bikes in your inventory that match the selected filters.</p>
 </ng-template>

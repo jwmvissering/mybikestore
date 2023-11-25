@@ -157,7 +157,7 @@ export class BikeService {
       category_id: this.fb.control(bike ? bike.category.id : null, [Validators.required]),
       image: this.fb.control(bike ? bike.image : ''),
       quantity_in_stock: this.fb.control(bike ? bike.quantity_in_stock : 0, [Validators.required, Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
-      price: this.fb.control(bike ? bike.price : 0, [Validators.required, Validators.pattern(pricePattern), Validators.min(0), Validators.max(99999.99)]),
+      price: this.fb.control(bike ? bike.price : 0, [Validators.required, Validators.pattern(pricePattern), Validators.min(1), Validators.max(99999.99)]),
       wh_of_motor: this.fb.control(bike ? bike.wh_of_motor : null, [Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
       range_in_km: this.fb.control(bike ? bike.range_in_km : null, [Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
     });
