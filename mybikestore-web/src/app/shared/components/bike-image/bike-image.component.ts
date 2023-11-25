@@ -12,7 +12,7 @@ import {CommonModule} from "@angular/common";
   styleUrls: ['./bike-image.component.scss']
 })
 export class BikeImageComponent {
-  @Input() imagePath: string;
-  @Input() previewImage: string;
-  @Input() alt: string;
+  @Input() imagePath: string | undefined;
+  @Input() previewImage: string | undefined;
+  @Input() alt: string | undefined;
 }

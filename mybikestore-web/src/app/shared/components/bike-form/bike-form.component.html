@@ -1,0 +1,62 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="row gx-5">
+    <div class="col-xl-3">
+      <div class="mb-5">
+        <div class="overflow-hidden mb-3">
+          <app-bike-image [previewImage]="previewUrl"
+                          [imagePath]="bike?.image"></app-bike-image>
+        </div>
+        <input id="image" type="file" class="" name="image" (change)="onFileChange($event)"
+               accept=".png,.jpg,.jpeg">
+      </div>
+      <div class="mb-2">
+        <label class="label-primary">Quantity in stock</label>
+        <input class="form-control" formControlName="quantity_in_stock">
+      </div>
+      <div class="mb-2">
+        <label class="label-primary">Price</label>
+        <input class="form-control" formControlName="price">
+        <p *ngIf="form.get('price')?.hasError('pattern')" class="text-danger small mt-1">
+          Enter a valid price with an optional decimal point (e.g. '123' or '123.45')
+        </p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="mb-2">
+        <label class="label-primary">Brand</label>
+        <select class="form-select" formControlName="brand_id">
+          <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="label-primary">Model</label>
+        <input class="form-control" formControlName="model">
+      </div>
+      <div class="mb-2">
+        <label class="label-primary">Bike type</label>
+        <select class="form-select" formControlName="category_id">
+          <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="label-primary">Description</label>
+        <textarea class="form-control" rows="8" formControlName="description"></textarea>
+      </div>
+      <ng-container *ngIf="electricBikeSelected">
+        <div class="mb-2">
+          <label class="label-primary">Wattage of motor</label>
+          <input class="form-control" formControlName="wh_of_motor">
+        </div>
+        <div class="mb-2">
+          <label class="label-primary">Range in km</label>
+          <input class="form-control" formControlName="range_in_km">
+        </div>
+      </ng-container>
+
+      <div class="d-flex mt-4 gap-4">
+        <a routerLink="../" class="btn btn-light px-4">Cancel</a>
+        <button type="submit" class="btn btn-primary px-4">Save</button>
+      </div>
+    </div>
+  </div>
+</form>

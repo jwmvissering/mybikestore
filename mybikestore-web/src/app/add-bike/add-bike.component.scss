@@ -1,0 +1,15 @@
+.item-image-xl {
+  position: relative;
+  img{
+    max-width: 100%;
+  }
+}
+
+.quantity-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  font-size: 1.3rem;
+}

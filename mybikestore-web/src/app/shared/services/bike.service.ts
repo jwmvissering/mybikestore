@@ -68,7 +68,7 @@ export class BikeService {
       );
   }
 
-  createBike(data: FormData): Observable<BikeModel> {
+  createBike(data: any): Observable<BikeModel> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');
     headers.append('Accept', 'application/json');
@@ -76,7 +76,8 @@ export class BikeService {
     return this.http.post<RequestObject<BikeModel>>(environment.apiUrl + this.entityPath, data, {headers})
       .pipe(
         map((data: RequestObject<BikeModel>) => data.data),
-        map((bike: any) => new BikeModel(bike))
+        map((bike: any) => new BikeModel(bike)),
+        tap((bike: BikeModel) => this.addBikeToSavedBikes(bike))
       );
   }
 
@@ -115,14 +116,17 @@ export class BikeService {
 
   updateSavedBikesWithUpdatedBike(updatedBike: BikeModel): void {
     const currentBikes: BikeModel[] = this.bikes.getValue();
-    // Find the index of the bike to be updated
-    const index = currentBikes.findIndex((bike) => bike.id === updatedBike.id);
+    const index: number = currentBikes.findIndex((bike) => bike.id === updatedBike.id);
     if (index !== -1) {
-      // If the bike is found, update it in the array
-      this.bikes.getValue()[index] = updatedBike;
-      // Update the observable with the modified array
+      // If the bike is found, overwrite it and update this.bikes with new value
+      currentBikes[index] = updatedBike;
       this.bikes.next([...currentBikes]);
     }
+  }
+
+  addBikeToSavedBikes(bike: BikeModel): void {
+    const currentBikes: BikeModel[] = this.bikes.getValue();
+    this.bikes.next([...currentBikes, bike]);
   }
 
   getFilters(): Observable<{ brand: number | null, category: number | null }> {
