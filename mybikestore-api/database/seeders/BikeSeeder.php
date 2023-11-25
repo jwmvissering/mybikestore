@@ -14,6 +14,7 @@ class BikeSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->addBatavusBikes();
         $this->addDiamondBackBikes();
         $this->addGazelleBikes();
         $this->addGiantBikes();
@@ -122,6 +123,28 @@ class BikeSeeder extends Seeder
             'price' => 5480,
             'wh_of_motor' => 487,
             'range_in_km' => 150
+        ])->setCategory(CategoryEnum::electricBike)->create();
+    }
+
+    private function addBatavusBikes(): void {
+        $brandId = Brand::where('name', 'Batavus')->first()->id;
+
+        Bike::factory([
+            'model' => 'Mambo',
+            'brand_id' => $brandId,
+            'description' => 'Everything has been thought of when designing this bicycle. The strong frame is designed so that this bike can handle extra weight. No less than 150 kilos for the entire bicycle. The rear carrier can handle a weight of up to 35 kilos. You can enrich this all-rounder with several accessories at the same time. A child seat front and rear, bicycle bags and a basket to carry extra luggage. And the design keeps you agile and compact. This bicycle has Batavus Vizi lighting. This lighting automatically provides \'high beam\' in dark weather or in the evening. This way you are optimally visible to others and you see more, without having to think about it yourself.',
+            'image' => '/uploads/fixtures/batavus-mambo.png',
+            'price' => 989.99
+        ])->setCategory(CategoryEnum::cityBike)->create();
+
+        Bike::factory([
+            'model' => 'Finez E-go Power Exclusive',
+            'brand_id' => $brandId,
+            'description' => 'The Batavus Finez E-go® Power Exclusive is the top model of the Finez series. This very complete electric city bike is equipped with every luxury. It has an integrated battery, belt drive, 8 gears, disc brakes and a completely new lighting set. With the Batavus Finez E-go® you have a top e-bike that you can use for every ride! Because the Finez E-go® Power Exclusive is equipped with a belt drive, this electric bicycle is even quieter, so you can optimally enjoy every ride. Moreover, a belt drive lasts up to three times as long as a regular chain and you no longer have to worry about dirt or grease on your pants! Handy, right?',
+            'image' => '/uploads/fixtures/batavus-finez.png',
+            'price' => 4480,
+            'wh_of_motor' => 500,
+            'range_in_km' => 148
         ])->setCategory(CategoryEnum::electricBike)->create();
     }
 }

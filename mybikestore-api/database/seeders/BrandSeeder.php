@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class BrandSeeder extends Seeder
 {
-    private array $brands = ['Lectric', 'Kona', 'Ride1Up', 'Marin', 'Rad Power', 'Giant', 'Trek', 'Cannondale', 'Bianchi', 'Specialized', 'Co-Op', 'Diamondback', 'Schwinn', 'Priority', 'Fuji', 'Tommaso', 'Sixthreezero', 'Santa Cruz', 'Raleigh', 'Cube', 'Alchemy', 'Orbea', 'Norco', 'Felt', 'Retrospec', 'Jamis', 'Firmstrong', 'Devinci', 'Ghost', 'Prevelo', 'Pure', 'Canyon', 'GT', 'Scott Sports', 'Ridley', 'BMC', 'MERIDA', 'Gazelle', 'Batavus', 'Pashley', 'Veloretti', 'VanMoof', 'Hiboy', 'Lekker', 'Linus'];
+    private array $brands = ['Batavus', 'Canyon', 'Diamondback', 'Gazelle', 'Giant', 'Hiboy', 'Jamis', 'Lekker', 'Linus', 'Marin', 'MERIDA', 'Prevelo', 'Priority', 'Pure', 'Rad Power', 'Raleigh', 'Retrospec', 'Ride1Up', 'Ridley', 'Schwinn', 'Scott Sports', 'Specialized', 'Tommaso', 'Trek', 'VanMoof', 'Other'];
 
     /**
      * Run the database seeds.
