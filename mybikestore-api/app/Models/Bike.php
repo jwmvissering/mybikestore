@@ -11,6 +11,12 @@ class Bike extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $casts = [
+        'quantity_in_stock' => 'integer',
+        'price' => 'float',
+        'wh_of_motor' => 'integer',
+        'range_in_km' => 'integer'
+    ];
 
     /**
      * Get the category that belongs to the bike.

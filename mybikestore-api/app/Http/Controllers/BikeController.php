@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\BikeResource;
 use App\Models\Bike;
+use App\Models\Brand;
+use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -60,7 +62,27 @@ class BikeController extends Controller
     public function update(Request $request, Bike $bike)
     {
         $request->validate($this->validationRules);
-        $bike->update([$request->all()]);
+        $bike->update([
+            'model' => $request->get('model', $bike->model),
+            'description' => $request->get('description', $bike->description),
+            'quantity_in_stock' => $request->get('quantity_in_stock', $bike->quantity_in_stock),
+            'price' => $request->get('price', $bike->price),
+            'wh_of_motor' => $request->get('wh_of_motor'),
+            'range_in_km' => $request->get('range_in_km'),
+        ]);
+
+        if ($request->has('brand_id') || $request->has('category_id')) {
+            if ($request->has('brand_id')) {
+                $brand = Brand::find($request->get('brand_id'));
+                $bike->brand()->associate($brand);
+            }
+            if ($request->has('category_id')){
+                $category = Category::find($request->get('category_id'));
+                $bike->category()->associate($category);
+            }
+            $bike->save();
+        }
+
         return new BikeResource($bike);
     }
 
