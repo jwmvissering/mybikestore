@@ -41,7 +41,20 @@ class BikeController extends Controller
     {
         try {
             $request->validate($this->validationRules);
-            $bike = Bike::create($request->all());
+
+            $filePath = $this->saveImageAndGetFilePath($request);
+            $bike = Bike::create([
+                'model' => $request->get('model'),
+                'description' => $request->get('description'),
+                'quantity_in_stock' => $request->get('quantity_in_stock', 0),
+                'image' => $filePath ?? null,
+                'price' => $request->get('price'),
+                'wh_of_motor' => $request->get('wh_of_motor'),
+                'range_in_km' => $request->get('range_in_km'),
+            ]);
+
+            $this->associateModels($request, $bike);
+
             return (new BikeResource($bike))
                 ->response()
                 ->setStatusCode(201);
@@ -63,39 +76,26 @@ class BikeController extends Controller
      */
     public function update(Request $request, Bike $bike)
     {
-        $request->validate($this->validationRules);
+        try {
+            $request->validate($this->validationRules);
 
-        $image = $request->image;
-        if (!empty($image)) {
-            $name = Str::slug($request->model) . '_' . time();
-            $folder = '/uploads/images/';
-            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
-            $this->uploadFile($image, $folder, 'public', $name);
+            $filePath = $this->saveImageAndGetFilePath($request);
+            $bike->update([
+                'model' => $request->get('model', $bike->model),
+                'description' => $request->get('description', $bike->description),
+                'quantity_in_stock' => $request->get('quantity_in_stock', $bike->quantity_in_stock),
+                'image' => $filePath ?? $bike->image,
+                'price' => $request->get('price', $bike->price),
+                'wh_of_motor' => $request->get('wh_of_motor'),
+                'range_in_km' => $request->get('range_in_km'),
+            ]);
+
+            $this->associateModels($request, $bike);
+
+            return new BikeResource($bike);
+        } catch (Exception $exception) {
+            throw new HttpException(400, "Could not update bike - {$exception->getMessage()}");
         }
-
-        $bike->update([
-            'model' => $request->get('model', $bike->model),
-            'description' => $request->get('description', $bike->description),
-            'quantity_in_stock' => $request->get('quantity_in_stock', $bike->quantity_in_stock),
-            'image' => $filePath ?? $bike->image,
-            'price' => $request->get('price', $bike->price),
-            'wh_of_motor' => $request->get('wh_of_motor'),
-            'range_in_km' => $request->get('range_in_km'),
-        ]);
-
-        if ($request->has('brand_id') || $request->has('category_id')) {
-            if ($request->has('brand_id')) {
-                $brand = Brand::find($request->get('brand_id'));
-                $bike->brand()->associate($brand);
-            }
-            if ($request->has('category_id')){
-                $category = Category::find($request->get('category_id'));
-                $bike->category()->associate($category);
-            }
-            $bike->save();
-        }
-
-        return new BikeResource($bike);
     }
 
     /**
@@ -124,5 +124,37 @@ class BikeController extends Controller
         $name = !is_null($filename) ? $filename : Str::random(25);
         $file = $uploadedFile->storeAs($folder, $name . '.' . $uploadedFile->getClientOriginalExtension(), $disk);
         return $file;
+    }
+
+    private function saveImageAndGetFilePath(Request $request)
+    {
+        $image = $request->image;
+        $filePath = null;
+        if (!empty($image)) {
+            try {
+                $name = Str::slug($request->model) . '_' . time();
+                $folder = '/uploads/images/';
+                $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
+                $this->uploadFile($image, $folder, 'public', $name);
+            } catch (Exception $exception) {
+                throw new HttpException(500, "Could not save image - {$exception->getMessage()}");
+            }
+        }
+        return $filePath;
+    }
+
+    private function associateModels(Request $request, Bike $bike)
+    {
+        if ($request->has('brand_id') || $request->has('category_id')) {
+            if ($request->has('brand_id')) {
+                $brand = Brand::find($request->get('brand_id'));
+                $bike->brand()->associate($brand);
+            }
+            if ($request->has('category_id')) {
+                $category = Category::find($request->get('category_id'));
+                $bike->category()->associate($category);
+            }
+            $bike->save();
+        }
     }
 }
