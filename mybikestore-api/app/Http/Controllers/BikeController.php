@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class BikeController extends Controller
@@ -62,10 +64,20 @@ class BikeController extends Controller
     public function update(Request $request, Bike $bike)
     {
         $request->validate($this->validationRules);
+
+        $image = $request->image;
+        if (!empty($image)) {
+            $name = Str::slug($request->model) . '_' . time();
+            $folder = '/uploads/images/';
+            $filePath = $folder . $name . '.' . $image->getClientOriginalExtension();
+            $this->uploadFile($image, $folder, 'public', $name);
+        }
+
         $bike->update([
             'model' => $request->get('model', $bike->model),
             'description' => $request->get('description', $bike->description),
             'quantity_in_stock' => $request->get('quantity_in_stock', $bike->quantity_in_stock),
+            'image' => $filePath ?? $bike->image,
             'price' => $request->get('price', $bike->price),
             'wh_of_motor' => $request->get('wh_of_motor'),
             'range_in_km' => $request->get('range_in_km'),
@@ -105,5 +117,12 @@ class BikeController extends Controller
     {
         $bike->delete();
         response()->json(null, 204);
+    }
+
+    public function uploadFile(UploadedFile $uploadedFile, $folder = null, $disk = 'public', $filename = null)
+    {
+        $name = !is_null($filename) ? $filename : Str::random(25);
+        $file = $uploadedFile->storeAs($folder, $name . '.' . $uploadedFile->getClientOriginalExtension(), $disk);
+        return $file;
     }
 }

@@ -11,6 +11,7 @@ export const routes: Routes = [
       {
         path: 'inventory', children: [
           {path: '', pathMatch: 'full', component: InventoryComponent},
+          {path: 'add', component: InventoryComponent},
           {
             path: ':id', children: [
               {path: '', pathMatch: 'full', component: BikeDetailsComponent},
