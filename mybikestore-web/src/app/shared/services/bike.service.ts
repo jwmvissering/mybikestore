@@ -1,10 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, finalize, map, Observable, of, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
 import {InventoryFilters} from "../../inventory/inventory-filter/inventory-filter.component";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
+export const pricePattern: RegExp = /^-?[0-9]\d*(\.\d{1,2})?$/;
+export const numberPattern: RegExp = /^(0|[1-9][0-9]*)$/;
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +24,7 @@ export class BikeService {
     category: null,
   });
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private fb: FormBuilder) {
   }
 
   getBikes(filtered = false): Observable<BikeModel[]> {
@@ -139,5 +143,35 @@ export class BikeService {
         return brandMatch && categoryMatch;
       }));
     });
+  }
+
+  createForm(bike?: BikeModel): FormGroup {
+    return this.fb.group({
+      model: this.fb.control(bike ? bike.model : '', [Validators.required, Validators.maxLength(255)]),
+      description: this.fb.control(bike ? bike.description : '', [Validators.maxLength(15000)]),
+      brand_id: this.fb.control(bike ? bike.brand.id : null, [Validators.required]),
+      category_id: this.fb.control(bike ? bike.category.id : null, [Validators.required]),
+      image: this.fb.control(bike ? bike.image : ''),
+      quantity_in_stock: this.fb.control(bike ? bike.quantity_in_stock : 0, [Validators.required, Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
+      price: this.fb.control(bike ? bike.price : '0', [Validators.required, Validators.pattern(pricePattern), Validators.min(0), Validators.max(99999.99)]),
+      wh_of_motor: this.fb.control(bike ? bike.wh_of_motor : null, [Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
+      range_in_km: this.fb.control(bike ? bike.range_in_km : null, [Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
+    });
+  }
+
+  getFormDataFromForm(form: FormGroup, isElectric = false) {
+    const formValues = form.getRawValue();
+    const formData = new FormData();
+    formData.append('model', formValues.model);
+    formData.append('description', formValues.description || '');
+    formData.append('brand_id', formValues.brand_id);
+    formData.append('category_id', formValues.category_id);
+    formData.append('quantity_in_stock', formValues.quantity_in_stock);
+    formData.append('price', formValues.price);
+    if (isElectric) {
+      formData.append('wh_of_motor', formValues.wh_of_motor);
+      formData.append('range_in_km', formValues.range_in_km);
+    }
+    return formData;
   }
 }

@@ -11,4 +11,5 @@ import { RouterLink } from '@angular/router';
 })
 export class BackButtonComponent {
   @Input() path: string = '/';
+  @Input() text: string = 'Back to inventory';
 }

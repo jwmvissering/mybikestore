@@ -11,21 +11,34 @@ import {MatDialog} from "@angular/material/dialog";
 import {take} from "rxjs";
 import {GenericModalComponent} from "../shared/components/generic-modal/generic-modal.component";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
-import {CategoryName} from "../shared/models/category.model";
+import {FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {CategoryModel, CategoryName} from "../shared/models/category.model";
+import {BrandModel} from "../shared/models/brand.model";
+import {BrandService} from "../shared/services/brand.service";
+import {CategoryService} from "../shared/services/category.service";
 
 @Component({
-  selector: 'app-bike-details',
+  selector: 'app-edit-bike',
   standalone: true,
   imports: [CommonModule, RouterLink, InventoryFilterComponent, InventoryListItemComponent, BackButtonComponent,
-    MatTooltipModule],
-  templateUrl: './bike-details.component.html',
-  styleUrl: './bike-details.component.scss'
+    MatTooltipModule, ReactiveFormsModule],
+  templateUrl: './edit-bike.component.html',
+  styleUrl: './edit-bike.component.scss'
 })
-export class BikeDetailsComponent implements OnInit {
+export class EditBikeComponent implements OnInit {
   bike: BikeModel | undefined;
+  form: FormGroup;
+  brands: BrandModel[];
+  categories: CategoryModel[];
 
   constructor(private route: ActivatedRoute, private bikeService: BikeService, private dialog: MatDialog,
+              private brandService: BrandService, private categoryService: CategoryService,
               private router: Router, private snackbarService: SnackbarService) {
+  }
+
+  get electricBikeSelected(): boolean {
+    const selectedCategory = this.categories?.find(category => category.id === +this.form?.get('category_id')?.value);
+    return selectedCategory?.name === CategoryName.electric;
   }
 
   ngOnInit(): void {
@@ -39,7 +52,26 @@ export class BikeDetailsComponent implements OnInit {
   getBike(id: number): void {
     this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
       this.bike = bike;
+      this.brandService.getBrands().subscribe((brands: BrandModel[]) => this.brands = brands);
+      this.categoryService.getCategories().subscribe((categories: CategoryModel[]) => this.categories = categories);
+      this.createForm();
     });
+  }
+
+  createForm(): void {
+    this.form = this.bikeService.createForm(this.bike);
+  }
+
+  updateBike(): void {
+    if (!this.form.valid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+    const formData = this.bikeService.getFormDataFromForm(this.form, this.electricBikeSelected);
+    this.bikeService.updateBike(this.bike!.id, formData).subscribe(() => {
+      this.router.navigate(['../'], {relativeTo: this.route}).catch();
+      this.snackbarService.openSnackbar('The bike has been updated', snackBarClass.success)
+    })
   }
 
   openImageDialog(): void {
@@ -54,43 +86,4 @@ export class BikeDetailsComponent implements OnInit {
       maxHeight: '90vh'
     });
   }
-
-  deleteBike(): void {
-    const dialogRef = this.dialog.open(GenericModalComponent, {
-      data: {
-        title: 'Are you sure you want to delete this bike?',
-        cancelButtonText: 'Cancel',
-        showContinueButton: true,
-        continueButtonText: 'Delete'
-      },
-      width: '300px',
-      maxWidth: '90vw',
-      maxHeight: '90vh'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.bikeService.deleteBike(this.bike!.id).subscribe(() => {
-          this.router.navigate(['']).catch();
-          this.snackbarService.openSnackbar(this.bike!.name + ' has been deleted', snackBarClass.success);
-        });
-      }
-    })
-  }
-
-  lowerQuantity() {
-    this.bike!.quantity_in_stock--;
-    this.bikeService.changeQuantity(this.bike!.id, this.bike!.quantity_in_stock).subscribe(() => {
-      this.snackbarService.openSnackbar('The quantity has been updated', snackBarClass.success);
-    });
-  }
-
-  addQuantity() {
-    this.bike!.quantity_in_stock++;
-    this.bikeService.changeQuantity(this.bike!.id, this.bike!.quantity_in_stock).subscribe(() => {
-      this.snackbarService.openSnackbar('The quantity has been updated', snackBarClass.success);
-    });
-  }
-
-  protected readonly CategoryName = CategoryName;
 }

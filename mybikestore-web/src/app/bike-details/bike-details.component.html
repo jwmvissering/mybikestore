@@ -8,7 +8,7 @@
     <div *ngIf="bike" class="d-flex align-items-center gap-4 mb-3">
       {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
       <a (click)="deleteBike()" type="button"><i class="fa-solid fa-trash-can text-danger"></i></a>
-      <button type="button" class="btn btn-blue-light">Edit bike</button>
+      <a routerLink="edit" class="btn btn-blue-light">Edit bike</a>
     </div>
   </div>
 
@@ -26,7 +26,8 @@
             <button (click)="lowerQuantity()" type="button" class="btn btn-primary quantity-btn"
                     [disabled]="bike.quantity_in_stock === 0">-</button>
             <div class="display-6">{{ bike.quantity_in_stock }}</div>
-            <button (click)="addQuantity()" type="button" class="btn btn-primary quantity-btn">+</button>
+            <button (click)="addQuantity()" type="button" class="btn btn-primary quantity-btn"
+                    [disabled]="bike.quantity_in_stock === 9999">+</button>
           </div>
           <div class="mb-2">
             <label class="label-primary">Price</label>
@@ -51,7 +52,7 @@
           <label class="label-primary">Description</label>
           <p [innerHTML]="bike.description"></p>
         </div>
-        <ng-container *ngIf="bike.category?.name === 'Electric bike'"> <!-- todo: replace with enum -->
+        <ng-container *ngIf="bike.category?.name === CategoryName.electric">
           <div class="mb-2">
             <label class="label-primary">Motor</label>
             <div class="value">{{ bike.wh_of_motor }} watt</div>

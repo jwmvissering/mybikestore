@@ -6,5 +6,14 @@ export class CategoryModel {
   }
 
   id: number;
-  name: string;
+  name: CategoryName;
+}
+
+export enum CategoryName {
+  electric = 'Electric bike',
+  cityBike = 'City bike',
+  hybridBike = 'Hybrid bike',
+  mountainBike = 'Mountain bike',
+  racingBike = 'Racing bike',
+  kidsBike = 'Kids bike'
 }
