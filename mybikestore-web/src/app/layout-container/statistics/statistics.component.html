@@ -18,7 +18,7 @@
         <div class="title">Total bikes</div>
       </div>
     </div>
-    <div class="col-auto">
+    <div *ngIf="statistics.outOfStock" class="col-auto">
       <div class="statistics-block red">
         <div class="icon d-inline-flex align-items-center justify-content-between">
           <i class="fa-solid fa-exclamation-triangle"></i>

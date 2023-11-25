@@ -11,10 +11,13 @@
     <form [formGroup]="form" (ngSubmit)="updateBike()">
       <div class="row gx-5">
         <div class="col-xl-3">
-          <div class="item-image-xl mb-5">
-            <a (click)="openImageDialog()" class="cursor-pointer">
-              <img [src]="bike.image" [alt]="bike.name">
-            </a>
+          <div class="mb-5">
+            <div class="overflow-hidden mb-3">
+              <app-bike-image [previewImage]="previewUrl"
+                              [imagePath]="bike.image"></app-bike-image>
+            </div>
+            <input id="image" type="file" class="" name="image" (change)="onFileChange($event)"
+                   accept=".png,.jpg,.jpeg">
           </div>
           <div class="mb-2">
             <label class="label-primary">Quantity in stock</label>
@@ -32,7 +35,7 @@
           <div class="mb-2">
             <label class="label-primary">Brand</label>
             <select class="form-select" formControlName="brand_id">
-              <option *ngFor="let brand of brands" [value]="brand.id">{{brand.name}}</option>
+              <option *ngFor="let brand of brands" [value]="brand.id">{{ brand.name }}</option>
             </select>
           </div>
           <div class="mb-2">
@@ -42,7 +45,7 @@
           <div class="mb-2">
             <label class="label-primary">Bike type</label>
             <select class="form-select" formControlName="category_id">
-              <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+              <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
             </select>
           </div>
           <div class="mb-2">

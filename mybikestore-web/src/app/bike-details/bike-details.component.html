@@ -24,10 +24,12 @@
           <label class="label-primary">Quantity in stock</label>
           <div class="d-flex gap-2 mb-2 align-items-center user-select-none">
             <button (click)="lowerQuantity()" type="button" class="btn btn-primary quantity-btn"
-                    [disabled]="bike.quantity_in_stock === 0">-</button>
+                    [disabled]="bike.quantity_in_stock === 0">-
+            </button>
             <div class="display-6">{{ bike.quantity_in_stock }}</div>
             <button (click)="addQuantity()" type="button" class="btn btn-primary quantity-btn"
-                    [disabled]="bike.quantity_in_stock === 9999">+</button>
+                    [disabled]="bike.quantity_in_stock === 9999">+
+            </button>
           </div>
           <div class="mb-2">
             <label class="label-primary">Price</label>

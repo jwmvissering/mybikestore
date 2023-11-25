@@ -5,15 +5,14 @@ import {CommonModule} from "@angular/common";
 @Component({
   selector: 'app-bike-image',
   standalone: true,
-  templateUrl: './bike-image.component.html',
   imports: [
     CommonModule
   ],
+  templateUrl: './bike-image.component.html',
   styleUrls: ['./bike-image.component.scss']
 })
 export class BikeImageComponent {
   @Input() imagePath: string;
   @Input() previewImage: string;
   @Input() alt: string;
-  apiPath: string = environment.backendUrl;
 }

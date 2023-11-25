@@ -6,22 +6,22 @@ import {InventoryListItemComponent} from "../inventory/inventory-list-item/inven
 import {BackButtonComponent} from "../shared/components/back-button/back-button.component";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {BikeModel} from "../shared/models/bike.model";
-import {BikeService} from "../shared/services/bike.service";
+import {BikeService, numberPattern} from "../shared/services/bike.service";
 import {MatDialog} from "@angular/material/dialog";
 import {take} from "rxjs";
-import {GenericModalComponent} from "../shared/components/generic-modal/generic-modal.component";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
-import {FormGroup, ReactiveFormsModule} from "@angular/forms";
+import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CategoryModel, CategoryName} from "../shared/models/category.model";
 import {BrandModel} from "../shared/models/brand.model";
 import {BrandService} from "../shared/services/brand.service";
 import {CategoryService} from "../shared/services/category.service";
+import {BikeImageComponent} from "../shared/components/bike-image/bike-image.component";
 
 @Component({
   selector: 'app-edit-bike',
   standalone: true,
   imports: [CommonModule, RouterLink, InventoryFilterComponent, InventoryListItemComponent, BackButtonComponent,
-    MatTooltipModule, ReactiveFormsModule],
+    MatTooltipModule, ReactiveFormsModule, BikeImageComponent],
   templateUrl: './edit-bike.component.html',
   styleUrl: './edit-bike.component.scss'
 })
@@ -30,6 +30,8 @@ export class EditBikeComponent implements OnInit {
   form: FormGroup;
   brands: BrandModel[];
   categories: CategoryModel[];
+  fileData: File;
+  previewUrl: any;
 
   constructor(private route: ActivatedRoute, private bikeService: BikeService, private dialog: MatDialog,
               private brandService: BrandService, private categoryService: CategoryService,
@@ -68,22 +70,30 @@ export class EditBikeComponent implements OnInit {
       return;
     }
     const formData = this.bikeService.getFormDataFromForm(this.form, this.electricBikeSelected);
+    if (this.fileData) {
+      formData.append('image', this.fileData);
+    }
     this.bikeService.updateBike(this.bike!.id, formData).subscribe(() => {
       this.router.navigate(['../'], {relativeTo: this.route}).catch();
       this.snackbarService.openSnackbar('The bike has been updated', snackBarClass.success)
-    })
+    }, (error) => this.snackbarService.openSnackbar(error, snackBarClass.danger))
   }
 
-  openImageDialog(): void {
-    this.dialog.open(GenericModalComponent, {
-      data: {
-        image: this.bike!.image,
-        cancelButtonText: 'Close',
-        showContinueButton: false
-      },
-      width: '900px',
-      maxWidth: '90vw',
-      maxHeight: '90vh'
-    });
+  onFileChange(fileInput: any): void {
+    this.fileData = fileInput.target.files[0];
+    this.preview();
+  }
+
+  preview(): void {
+    const mimeType = this.fileData.type;
+    if (mimeType.match(/image\/*/) == null) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(this.fileData);
+    reader.onload = (event) => {
+      this.previewUrl = reader.result;
+    };
   }
 }
