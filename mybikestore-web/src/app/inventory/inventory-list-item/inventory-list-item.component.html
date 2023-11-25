@@ -11,16 +11,18 @@
     <div class="col">
       <div class="row align-items-center justify-content-end gx-4">
         <div *ngIf="bike.category" class="col-auto">
-          <i class="fa-solid fa-tag me-1 text-muted-light" matTooltip="Type" matTooltipPosition="above"></i>
+          <i class="fa-solid fa-tag me-1 text-muted-light" matTooltip="Type" matTooltipPosition="above"
+             matTooltipClass="tooltip-sm"></i>
           {{ bike.category.name }}
         </div>
         <div *ngIf="bike.price" class="col-auto">
           <i class="fa-solid fa-money-bill-wave me-1 text-muted-light" matTooltip="Price"
-             matTooltipPosition="above"></i>
+             matTooltipPosition="above" matTooltipClass="tooltip-sm"></i>
           {{ bike.price | currency:'CAD' }}
         </div>
         <div class="col-auto d-flex flex-row align-items-center">
-          <i class="fa-solid fa-cubes me-2 text-muted-light" matTooltip="Quantity" matTooltipPosition="above"></i>
+          <i class="fa-solid fa-cubes me-2 text-muted-light" matTooltip="Quantity" matTooltipPosition="above"
+             matTooltipClass="tooltip-sm"></i>
           <div class="quantity-badge flex-grow-0" [ngClass]="bike.stockQuantityColor">
             {{ bike.quantity_in_stock }}
           </div>
