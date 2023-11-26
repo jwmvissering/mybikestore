@@ -6,4 +6,11 @@
   .logo {
     height: calc($navbar-height - 16px - 10px);
   }
+
+  &.navbar-fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1020;
+  }
 }

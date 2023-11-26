@@ -4,6 +4,7 @@ import {Router, RouterLink} from '@angular/router';
 import {GenericModalComponent} from "../../shared/components/generic-modal/generic-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {BikeService} from "../../shared/services/bike.service";
+import {snackBarClass, SnackbarService} from "../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ import {BikeService} from "../../shared/services/bike.service";
 })
 export class NavbarComponent {
 
-  constructor(private dialog: MatDialog, private bikeService: BikeService, private router: Router) {
+  constructor(private dialog: MatDialog, private bikeService: BikeService, private router: Router, private snackbarService: SnackbarService) {
   }
 
   resetData(): void {
@@ -47,8 +48,9 @@ export class NavbarComponent {
         });
         this.bikeService.runBackendSeeders().subscribe(() => {
           this.bikeService.getBikesFromApi().subscribe(() => {
-          this.router.navigate(['']).catch();
-          loadingDialog.close();
+            this.router.navigate(['']).catch();
+            loadingDialog.close();
+            this.snackbarService.openSnackbar('The data has been reset', snackBarClass.success);
           });
         });
       }

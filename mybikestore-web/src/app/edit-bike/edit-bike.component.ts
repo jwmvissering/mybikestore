@@ -37,7 +37,6 @@ export class EditBikeComponent implements OnInit {
     this.route.params.subscribe((params: Params): void => {
       if (params['id']) {
         this.getBike(params['id']);
-        this.loading = false
       }
     })
   }
@@ -45,6 +44,7 @@ export class EditBikeComponent implements OnInit {
   getBike(id: number): void {
     this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
       this.bike = bike;
+      this.loading = false
       this.createForm();
     });
   }
