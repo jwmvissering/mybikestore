@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {GenericModalComponent} from "../../shared/components/generic-modal/generic-modal.component";
 import {MatDialog} from "@angular/material/dialog";
 import {BikeService} from "../../shared/services/bike.service";
@@ -14,7 +14,7 @@ import {BikeService} from "../../shared/services/bike.service";
 })
 export class NavbarComponent {
 
-  constructor(private dialog: MatDialog, private bikeService: BikeService) {
+  constructor(private dialog: MatDialog, private bikeService: BikeService, private router: Router) {
   }
 
   resetData(): void {
@@ -46,8 +46,10 @@ export class NavbarComponent {
           maxHeight: '80vh'
         });
         this.bikeService.runBackendSeeders().subscribe(() => {
-          this.bikeService.getBikesFromApi().subscribe();
+          this.bikeService.getBikesFromApi().subscribe(() => {
+          this.router.navigate(['']).catch();
           loadingDialog.close();
+          });
         });
       }
     });

@@ -2,7 +2,7 @@
   <h1 class="mb-4">Inventory management</h1>
   <app-inventory-filter></app-inventory-filter>
 
-  <div class="mt-2 mb-5">
+  <div *ngIf="!loading; else loadingSpinner" class="mt-2 mb-5">
     <ng-container *ngIf="bikes?.length; else noBikes">
       <app-inventory-list-item *ngFor="let bike of bikes" [bike]="bike"></app-inventory-list-item>
     </ng-container>
@@ -12,4 +12,8 @@
 <ng-template #noBikes>
   <p *ngIf="!hasFilters" class="fst-italic">Oops! Looks like there are no bikes in your inventory</p>
   <p *ngIf="hasFilters" class="fst-italic">Oops! Looks like there are no bikes in your inventory that match the selected filters.</p>
+</ng-template>
+
+<ng-template #loadingSpinner>
+  <i class="fa-solid fa-spinner fa-spin fa-2x text-green"></i>
 </ng-template>

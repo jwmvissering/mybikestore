@@ -15,7 +15,8 @@ import {BikeModel} from "../shared/models/bike.model";
 })
 export class InventoryComponent implements OnInit {
   bikes: BikeModel[] = [];
-  hasFilters = false;
+  hasFilters: boolean = false;
+  loading: boolean = true
 
   constructor(private bikeService: BikeService) {
   }
@@ -24,10 +25,11 @@ export class InventoryComponent implements OnInit {
     this.getBikes();
   }
 
-  getBikes() {
+  getBikes(): void {
     this.bikeService.forceRefresh();
     this.bikeService.getBikes(true).subscribe((bikes: BikeModel[]) => {
       this.bikes = bikes;
+      this.loading = false;
       this.bikeService.getFilters().subscribe(filters => {
         this.hasFilters = Object.values(filters).some(value => !!value);
       })

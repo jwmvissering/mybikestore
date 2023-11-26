@@ -20,15 +20,24 @@ import {BikeFormComponent, BikeFormSubmitEvent} from "../shared/components/bike-
 export class EditBikeComponent implements OnInit {
   bike: BikeModel | undefined;
   form: FormGroup;
+  loading: boolean = true;
 
   constructor(private route: ActivatedRoute, private bikeService: BikeService,
               private router: Router, private snackbarService: SnackbarService) {
+  }
+
+  get pageTitle(): string {
+    if (this.loading) {
+      return 'Loading bike';
+    }
+    return this.bike?.name ? 'Edit ' + this.bike?.name : 'Bike not found';
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params): void => {
       if (params['id']) {
         this.getBike(params['id']);
+        this.loading = false
       }
     })
   }

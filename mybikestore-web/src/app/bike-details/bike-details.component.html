@@ -5,10 +5,10 @@
 
   <div class="row justify-content-between align-items-center mb-3">
     <div class="col-12 col-lg">
-      <h1 class="mb-0">{{ bike?.name ?? 'Bike not found' }}</h1>
+      <h1 class="mb-0">{{ pageTitle }}</h1>
     </div>
     <div class="col-12 col-lg-auto">
-      <div *ngIf="bike" class="row align-items-center gx-4">
+      <div *ngIf="bike && !loading" class="row align-items-center gx-4">
         <div class="col">
           {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
         </div>
@@ -22,13 +22,13 @@
     </div>
   </div>
 
-  <div class="white-bg-with-image">
+  <div *ngIf="!loading; else loadingSpinner" class="white-bg-with-image">
     <div *ngIf="bike" class="mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2 position-relative">
       <div class="row gx-5">
         <div class="col-lg-4">
           <div class="bike-image-container user-select-none mb-5">
             <a (click)="openImageDialog()" class="cursor-pointer">
-              <app-bike-image [imagePath]="bike?.image"></app-bike-image>
+              <app-bike-image [imagePath]="bike.image"></app-bike-image>
             </a>
           </div>
           <div class="mb-2">
@@ -80,3 +80,7 @@
     </div>
   </div>
 </div>
+
+<ng-template #loadingSpinner>
+  <i class="fa-solid fa-spinner fa-spin fa-2x text-green"></i>
+</ng-template>

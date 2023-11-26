@@ -24,9 +24,17 @@ import {BikeImageComponent} from "../shared/components/bike-image/bike-image.com
 })
 export class BikeDetailsComponent implements OnInit {
   bike: BikeModel | undefined;
+  loading: boolean = true;
 
   constructor(private route: ActivatedRoute, private bikeService: BikeService, private dialog: MatDialog,
               private router: Router, private snackbarService: SnackbarService) {
+  }
+
+  get pageTitle(): string {
+    if (this.loading) {
+      return 'Loading bike';
+    }
+    return this.bike?.name ?? 'Bike not found';
   }
 
   ngOnInit(): void {
@@ -40,6 +48,7 @@ export class BikeDetailsComponent implements OnInit {
   getBike(id: number): void {
     this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
       this.bike = bike;
+      this.loading = false;
     });
   }
 
