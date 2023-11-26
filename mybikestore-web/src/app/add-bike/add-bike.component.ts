@@ -42,7 +42,7 @@ export class AddBikeComponent implements OnInit {
     }
     this.bikeService.createBike(formData).subscribe((bike: BikeModel) => {
       this.router.navigate(['/inventory', bike.id], {relativeTo: this.route}).catch();
-      this.snackbarService.openSnackbar('The bike has been updated', snackBarClass.success)
+      this.snackbarService.openSnackbar('The bike has been added', snackBarClass.success)
     }, (error) => this.snackbarService.openSnackbar(error, snackBarClass.danger))
   }
 }
