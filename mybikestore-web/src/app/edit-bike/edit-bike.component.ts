@@ -4,7 +4,6 @@ import {ActivatedRoute, Params, Router, RouterLink} from '@angular/router';
 import {BackButtonComponent} from "../shared/components/back-button/back-button.component";
 import {BikeModel} from "../shared/models/bike.model";
 import {BikeService} from "../shared/services/bike.service";
-import {take} from "rxjs";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
 import {FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {BikeImageComponent} from "../shared/components/bike-image/bike-image.component";
@@ -42,10 +41,11 @@ export class EditBikeComponent implements OnInit {
   }
 
   getBike(id: number): void {
-    this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
+    this.loading = true;
+    this.bikeService.getBike(id).subscribe((bike: BikeModel) => {
       this.bike = bike;
-      this.loading = false
       this.createForm();
+      this.loading = false
     });
   }
 

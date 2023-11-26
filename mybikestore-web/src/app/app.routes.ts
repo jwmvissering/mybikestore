@@ -8,17 +8,12 @@ import {AddBikeComponent} from "./add-bike/add-bike.component";
 export const routes: Routes = [
   {
     path: '', component: LayoutContainerComponent, children: [
-      {path: '', pathMatch: 'full', redirectTo: 'inventory'},
+      {path: '', pathMatch: 'full', component: InventoryComponent},
+      {path: 'bike/add', component: AddBikeComponent},
       {
-        path: 'inventory', children: [
-          {path: '', pathMatch: 'full', component: InventoryComponent},
-          {path: 'add', component: AddBikeComponent},
-          {
-            path: ':id', children: [
-              {path: '', pathMatch: 'full', component: BikeDetailsComponent},
-              {path: 'edit', component: EditBikeComponent},
-            ]
-          }
+        path: 'bike/:id', children: [
+          {path: '', pathMatch: 'full', component: BikeDetailsComponent},
+          {path: 'edit', component: EditBikeComponent},
         ]
       }
     ]

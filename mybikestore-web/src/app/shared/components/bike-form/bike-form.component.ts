@@ -33,6 +33,10 @@ export class BikeFormComponent implements OnInit{
     return selectedCategory?.name === CategoryName.electric;
   }
 
+  get cancelUrl(): string {
+    return this.bike ? '../' : '/';
+  }
+
   ngOnInit() {
     this.brandService.getBrands().subscribe((brands: BrandModel[]) => this.brands = brands);
     this.categoryService.getCategories().subscribe((categories: CategoryModel[]) => this.categories = categories);

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, delay, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, delay, finalize, map, Observable, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
@@ -16,7 +16,7 @@ export const numberPattern: RegExp = /^(0|[1-9][0-9]*)$/;
 export class BikeService {
   private entityPath: string = 'bikes';
   private bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
-  private filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
+  private filteredBikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
   private dataLoaded: boolean = false;
   private loading: boolean = false;
   private filters: BehaviorSubject<InventoryFilters> = new BehaviorSubject<InventoryFilters>({
@@ -112,7 +112,8 @@ export class BikeService {
   }
 
   deleteBike(id: number): Observable<void> {
-    return this.http.delete<any>(environment.apiUrl + this.entityPath + '/' + id);
+    return this.http.delete<any>(environment.apiUrl + this.entityPath + '/' + id)
+      .pipe(tap(() => this.removeBikeFromSavedBikes(id)));
   }
 
   updateSavedBikesWithUpdatedBike(updatedBike: BikeModel): void {
@@ -122,12 +123,25 @@ export class BikeService {
       // If the bike is found, overwrite it and update this.bikes with new value
       currentBikes[index] = updatedBike;
       this.bikes.next([...currentBikes]);
+      this.updateFilteredBikes();
+    }
+  }
+
+  removeBikeFromSavedBikes(id: number): void {
+    const currentBikes: BikeModel[] = this.bikes.getValue();
+    const index: number = currentBikes.findIndex((bike) => bike.id === id);
+    if (index !== -1) {
+      // If the bike is found, delete it and update this.bikes with new value
+      currentBikes.splice(index, 1);
+      this.bikes.next([...currentBikes]);
+      this.updateFilteredBikes();
     }
   }
 
   addBikeToSavedBikes(bike: BikeModel): void {
     const currentBikes: BikeModel[] = this.bikes.getValue();
     this.bikes.next([...currentBikes, bike]);
+    this.updateFilteredBikes();
   }
 
   getFilters(): Observable<{ brand: number | null, category: number | null }> {
@@ -185,6 +199,6 @@ export class BikeService {
   }
 
   runBackendSeeders(): Observable<void> {
-    return this.http.post<void>(environment.apiUrl + 'migrate/fresh',{}).pipe(delay(5000));
+    return this.http.post<void>(environment.apiUrl + 'migrate/fresh', {}).pipe(delay(5000));
   }
 }

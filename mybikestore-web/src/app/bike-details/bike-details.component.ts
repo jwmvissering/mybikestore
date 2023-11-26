@@ -8,7 +8,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {BikeModel} from "../shared/models/bike.model";
 import {BikeService} from "../shared/services/bike.service";
 import {MatDialog} from "@angular/material/dialog";
-import {take} from "rxjs";
+import {finalize, take} from "rxjs";
 import {GenericModalComponent} from "../shared/components/generic-modal/generic-modal.component";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
 import {CategoryName} from "../shared/models/category.model";
@@ -46,10 +46,11 @@ export class BikeDetailsComponent implements OnInit {
   }
 
   getBike(id: number): void {
-    this.bikeService.getBike(id).pipe(take(1)).subscribe((bike: BikeModel): void => {
-      this.bike = bike;
-      this.loading = false;
-    });
+    this.bikeService.getBike(id)
+      .pipe(take(1), finalize(() => this.loading = false))
+      .subscribe((bike: BikeModel): void => {
+        this.bike = bike;
+      });
   }
 
   openImageDialog(): void {
@@ -80,8 +81,8 @@ export class BikeDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.bikeService.deleteBike(this.bike!.id).subscribe(() => {
-          this.router.navigate(['']).catch();
+        this.bikeService.deleteBike(this.bike!.id).subscribe((): void => {
+          this.router.navigate(['/']).catch();
           this.snackbarService.openSnackbar(this.bike!.name + ' has been deleted', snackBarClass.success);
         });
       }

@@ -5,6 +5,7 @@ import {InventoryFilterComponent} from "./inventory-filter/inventory-filter.comp
 import {InventoryListItemComponent} from "./inventory-list-item/inventory-list-item.component";
 import {BikeService} from "../shared/services/bike.service";
 import {BikeModel} from "../shared/models/bike.model";
+import {take} from "rxjs";
 
 @Component({
   selector: 'app-inventory',
@@ -27,12 +28,17 @@ export class InventoryComponent implements OnInit {
 
   getBikes(): void {
     this.bikeService.forceRefresh();
-    this.bikeService.getBikes(true).subscribe((bikes: BikeModel[]) => {
-      this.bikes = bikes;
-      this.loading = false;
-      this.bikeService.getFilters().subscribe(filters => {
-        this.hasFilters = Object.values(filters).some(value => !!value);
-      })
-    })
+    this.loading = true;
+
+    // take(2) because it first gets the already loaded data (if available), and when the 'forced' request in the background succeeds, it gets the new data.
+    this.bikeService.getBikes(true)
+      .pipe(take(2))
+      .subscribe((bikes: BikeModel[]) => {
+        this.bikes = bikes;
+        this.loading = false;
+        this.bikeService.getFilters().subscribe(filters => {
+          this.hasFilters = Object.values(filters).some(value => !!value);
+        })
+      });
   }
 }
