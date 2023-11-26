@@ -1,16 +1,20 @@
 @import "variables";
 
-.navbar {
+.navbar-container {
   height: $navbar-height;
 
-  .logo {
-    height: calc($navbar-height - 16px - 10px);
-  }
+  .navbar {
+    height: $navbar-height;
 
-  &.navbar-fixed {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1020;
+    .logo {
+      height: calc($navbar-height - 16px - 10px);
+    }
+
+    &.navbar-fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1020;
+    }
   }
 }
