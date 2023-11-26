@@ -17,8 +17,8 @@ export class BikeService {
   private entityPath: string = 'bikes';
   private bikes: BehaviorSubject<BikeModel[]> = new BehaviorSubject<BikeModel[]>([]);
   private filteredBikes: ReplaySubject<BikeModel[]> = new ReplaySubject<BikeModel[]>();
-  private dataLoaded = false;
-  private loading = false;
+  private dataLoaded: boolean = false;
+  private loading: boolean = false;
   private filters: BehaviorSubject<InventoryFilters> = new BehaviorSubject<InventoryFilters>({
     brand: null,
     category: null,
@@ -28,7 +28,7 @@ export class BikeService {
   }
 
   getBikes(filtered = false): Observable<BikeModel[]> {
-    // If data is not loaded or not already requested, fetch it
+    // If data is not loaded or not already requested, fetch it. Else, return already loaded bikes
     if (!this.dataLoaded && !this.loading) {
       this.loading = true;
       this.getBikesFromApi().pipe(
@@ -47,6 +47,7 @@ export class BikeService {
   }
 
   forceRefresh(): void {
+    // forces a request the next time a component calls getBikes()
     this.dataLoaded = false;
   }
 

@@ -28,12 +28,4 @@ export class CategoryService {
         tap((data: CategoryModel[]) => this.categories.next(data))
       );
   }
-
-  getCategory(id: number): Observable<CategoryModel> {
-    return this.http.get<RequestObject<CategoryModel>>(environment.apiUrl + this.entityPath + '/' + id)
-      .pipe(
-        map((data: RequestObject<CategoryModel>) => data.data),
-        map((category: any) => new CategoryModel(category))
-      );
-  }
 }

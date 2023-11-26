@@ -3,7 +3,7 @@
     <div class="col-12 col-lg-auto ">
       <div class="py-2 px-3 d-flex gap-3 align-items-center">
         <div class="item-image">
-          <img [ngSrc]="bike.image" width="60" height="34" alt="Diamondback Interurban 700c">
+          <app-bike-image [imagePath]="bike.image" [alt]="bike.name"></app-bike-image>
         </div>
         <div class="item-title">
           {{ bike.name }}

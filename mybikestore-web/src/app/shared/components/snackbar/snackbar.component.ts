@@ -1,10 +1,10 @@
-import {Component, inject, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {
   MAT_SNACK_BAR_DATA,
-  MatSnackBar, MatSnackBarAction,
+  MatSnackBar,
+  MatSnackBarAction,
   MatSnackBarActions,
-  MatSnackBarLabel,
-  MatSnackBarRef
+  MatSnackBarLabel
 } from '@angular/material/snack-bar';
 import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";

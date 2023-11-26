@@ -21,7 +21,7 @@ export class NavbarComponent {
     const dialogRef = this.dialog.open(GenericModalComponent, {
       data: {
         title: 'Reset all data',
-        description: 'Are you sure you want to reset all data? Your progress will be lost and the dummy data containing 20 bikes will be restored.',
+        description: 'Are you sure you want to reset all data? Your progress will be lost, and the dummy data, which contains 11 bikes, will be restored.',
         cancelButtonText: 'Cancel',
         showContinueButton: true,
         continueButtonText: 'Reset'
@@ -36,7 +36,7 @@ export class NavbarComponent {
         const loadingDialog = this.dialog.open(GenericModalComponent, {
           data: {
             title: 'Loading dummy data',
-            description: 'This should not take longer than 5 seconds...',
+            description: 'This process should not take more than 5 seconds...',
             showLoadingIcon: true,
             showCancelButton: false,
             showContinueButton: false,

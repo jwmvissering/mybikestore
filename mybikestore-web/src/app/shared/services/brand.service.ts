@@ -28,12 +28,4 @@ export class BrandService {
         tap((data: BrandModel[]) => this.brands.next(data))
       );
   }
-
-  getBrand(id: number): Observable<BrandModel> {
-    return this.http.get<RequestObject<BrandModel>>(environment.apiUrl + this.entityPath + '/' + id)
-      .pipe(
-        map((data: RequestObject<BrandModel>) => data.data),
-        map((brand: any) => new BrandModel(brand))
-      );
-  }
 }

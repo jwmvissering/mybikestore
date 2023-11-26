@@ -28,8 +28,8 @@ export class GenericModalComponent {
     this.title = data.title;
     this.description = data.description;
     this.image = data.image;
-    this.continueButtonText = data.continueButtonText || 'Doorgaan';
-    this.cancelButtonText = data.cancelButtonText || 'Annuleren';
+    this.continueButtonText = data.continueButtonText || 'Continue';
+    this.cancelButtonText = data.cancelButtonText || 'Cancel';
     this.showLoadingIcon = data.showLoadingIcon ?? false;
     this.showCancelButton = data.showCancelButton ?? true;
     this.showContinueButton = data.showContinueButton ?? true;
