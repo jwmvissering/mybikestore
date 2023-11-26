@@ -4,6 +4,7 @@ use App\Http\Controllers\BikeController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -19,3 +20,7 @@ Route::delete('bikes/{bike}', [BikeController::class, 'destroy']);
 
 Route::get('categories', [CategoryController::class, 'index']);
 Route::get('brands', [BrandController::class, 'index']);
+
+Route::post('migrate/fresh', function(){
+    Artisan::call('migrate:fresh --seed');
+});
