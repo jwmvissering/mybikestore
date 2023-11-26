@@ -11,6 +11,7 @@ import {Statistics, StatisticsService} from "../../shared/services/statistics.se
 })
 export class StatisticsComponent implements OnInit {
   statistics: Statistics;
+  collapsedStats: boolean = true;
 
   constructor(private statisticsService: StatisticsService) {
   }
@@ -19,5 +20,9 @@ export class StatisticsComponent implements OnInit {
     this.statisticsService.getStatistics().subscribe((statistics: Statistics): void => {
       this.statistics = statistics;
     });
+  }
+
+  toggleCollapsedStats(): void {
+    this.collapsedStats = !this.collapsedStats;
   }
 }

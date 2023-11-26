@@ -12,12 +12,13 @@ import {take} from "rxjs";
 import {GenericModalComponent} from "../shared/components/generic-modal/generic-modal.component";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
 import {CategoryName} from "../shared/models/category.model";
+import {BikeImageComponent} from "../shared/components/bike-image/bike-image.component";
 
 @Component({
   selector: 'app-bike-details',
   standalone: true,
   imports: [CommonModule, RouterLink, InventoryFilterComponent, InventoryListItemComponent, BackButtonComponent,
-    MatTooltipModule],
+    MatTooltipModule, BikeImageComponent],
   templateUrl: './bike-details.component.html',
   styleUrl: './bike-details.component.scss'
 })

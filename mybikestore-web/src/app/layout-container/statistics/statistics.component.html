@@ -1,31 +1,67 @@
 <div *ngIf="statistics" class="container">
-  <div class="row pt-5 gap-2">
-    <div class="col-auto">
-      <div class="statistics-block green">
-        <div class="icon d-inline-flex align-items-center justify-content-between">
-          <i class="fa-solid fa-money-bill-wave"></i>
+  <div class="row pt-4 pt-sm-5 gx-3">
+    <div class="col">
+      <div class="row flex-column flex-sm-row gy-2">
+        <div class="col col-lg-auto">
+          <div class="statistics-block green">
+            <div class="row gx-3 align-items-center align-items-sm-start flex-sm-column">
+              <div class="col-auto d-flex align-items-center gap-2">
+                <div class="icon-container d-inline-flex align-items-center justify-content-sm-between">
+                  <i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+              </div>
+              <div class="col">
+                <div class="amount">{{ statistics.totalValue | currency:'CAD':'symbol':'1.0-0' }}</div>
+              </div>
+              <div class="col-auto">
+                <div class="title">Total value</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="amount">{{ statistics.totalValue | currency:'CAD':'symbol':'1.0-0' }}</div>
-        <div class="title">Total value</div>
+
+        <div class="col-auto" [ngClass]="{'d-none d-sm-block': collapsedStats}">
+          <div class="statistics-block yellow">
+            <div class="row gx-3 align-items-center align-items-sm-start flex-sm-column">
+              <div class="col-auto d-flex align-items-center gap-2">
+                <div class="icon-container d-inline-flex align-items-center justify-content-sm-between">
+                  <i class="fa-solid fa-person-biking"></i>
+                </div>
+              </div>
+              <div class="col">
+                <div class="amount text-darker">{{ statistics.totalItems }}</div>
+              </div>
+              <div class="col-auto">
+                <div class="title">Total bikes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="statistics.outOfStock" class="col-auto" [ngClass]="{'d-none d-sm-block': collapsedStats}">
+          <div class="statistics-block red">
+            <div class="row gx-3 align-items-center align-items-sm-start flex-sm-column">
+              <div class="col-auto d-flex align-items-center gap-2">
+                <div class="icon-container d-inline-flex align-items-center justify-content-sm-between">
+                  <i class="fa-solid fa-exclamation-triangle"></i>
+                </div>
+              </div>
+              <div class="col">
+                <div class="amount">{{ statistics.outOfStock }}</div>
+              </div>
+              <div class="col-auto">
+                <div class="title">Out of stock</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-auto">
-      <div class="statistics-block yellow">
-        <div class="icon d-inline-flex align-items-center justify-content-between">
-          <i class="fa-solid fa-person-biking"></i>
-        </div>
-        <div class="amount">{{ statistics.totalItems }}</div>
-        <div class="title">Total bikes</div>
-      </div>
-    </div>
-    <div *ngIf="statistics.outOfStock" class="col-auto">
-      <div class="statistics-block red">
-        <div class="icon d-inline-flex align-items-center justify-content-between">
-          <i class="fa-solid fa-exclamation-triangle"></i>
-        </div>
-        <div class="amount">{{ statistics.outOfStock }}</div>
-        <div class="title">Out of stock</div>
-      </div>
+    <div class="col-auto d-flex d-sm-none">
+      <a (click)="toggleCollapsedStats()" class="toggle-icon a-unstyled text-muted-light">
+        <ng-container *ngIf="collapsedStats"><i class="fa-solid fa-chevron-circle-down"></i></ng-container>
+        <ng-container *ngIf="!collapsedStats"><i class="fa-solid fa-chevron-circle-up"></i></ng-container>
+      </a>
     </div>
   </div>
 </div>

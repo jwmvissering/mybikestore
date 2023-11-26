@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {BehaviorSubject, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
+import {BehaviorSubject, delay, finalize, map, Observable, ReplaySubject, take, tap} from 'rxjs';
 import {BikeModel} from '../models/bike.model';
 import {RequestObject} from '../models/request-object.model';
 import {environment} from '../../../environments/environment';
@@ -155,7 +155,7 @@ export class BikeService {
       description: this.fb.control(bike ? bike.description : '', [Validators.maxLength(15000)]),
       brand_id: this.fb.control(bike ? bike.brand.id : null, [Validators.required]),
       category_id: this.fb.control(bike ? bike.category.id : null, [Validators.required]),
-      image: this.fb.control(bike ? bike.image : ''),
+      image: this.fb.control(null),
       quantity_in_stock: this.fb.control(bike ? bike.quantity_in_stock : 0, [Validators.required, Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
       price: this.fb.control(bike ? bike.price : 0, [Validators.required, Validators.pattern(pricePattern), Validators.min(1), Validators.max(99999.99)]),
       wh_of_motor: this.fb.control(bike ? bike.wh_of_motor : null, [Validators.pattern(numberPattern), Validators.min(0), Validators.max(9999)]),
@@ -181,5 +181,9 @@ export class BikeService {
       formData.append('range_in_km', formValues.range_in_km);
     }
     return formData;
+  }
+
+  runBackendSeeders(): Observable<void> {
+    return this.http.post<void>(environment.apiUrl + 'migrate/fresh',{}).pipe(delay(5000));
   }
 }

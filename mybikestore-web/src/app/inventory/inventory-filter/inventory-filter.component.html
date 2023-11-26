@@ -1,6 +1,6 @@
-<div class="row">
-  <div class="col-auto">
-    <mat-form-field *ngIf="brands.length">
+<div class="row gx-2 gx-sm-4">
+  <div class="col-6 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+    <mat-form-field *ngIf="brands.length" class="w-100">
       <mat-label>Filter by brand</mat-label>
       <mat-select (selectionChange)="setBrandFilter($event)" [value]="filters.brand">
         <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
@@ -8,8 +8,8 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div class="col-auto">
-    <mat-form-field *ngIf="categories.length">
+  <div class="col-6 col-sm-5 col-md-4 col-lg-3 col-xl-2">
+    <mat-form-field *ngIf="categories.length" class="w-100">
       <mat-label>Filter by type</mat-label>
       <mat-select (selectionChange)="setCategoryFilter($event)" [value]="filters.category">
         <mat-option [value]="null" class="no-filter-text">No filter</mat-option>
@@ -17,9 +17,7 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div *ngIf="filterIsActive" class="col-auto">
-    <div class="d-flex">
-      <a (click)="clearFilters()" class="mt-2 p-2 btn btn-link clear-link text-muted-light">Clear filters</a>
-    </div>
+  <div *ngIf="filterIsActive" class="d-none d-sm-block col-sm-auto">
+    <a (click)="clearFilters()" class="mt-2 p-2 btn btn-link clear-link text-muted-light">Clear filters</a>
   </div>
 </div>

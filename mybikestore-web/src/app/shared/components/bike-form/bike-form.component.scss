@@ -1,9 +1,10 @@
 @import "variables";
 
 .bike-image-container {
-  height: 250px;
-  border-radius: 5px;
+  max-height: 300px;
+  max-width: 432px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 16px 20px -6px rgba(44, 44, 67, 0.1);
+  box-shadow: $box-shadow;
   border: 1px solid $gray-300;
 }

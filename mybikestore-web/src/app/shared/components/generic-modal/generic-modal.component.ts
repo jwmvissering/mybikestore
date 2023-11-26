@@ -19,6 +19,7 @@ export class GenericModalComponent {
   description: string;
   continueButtonText: string;
   cancelButtonText: string;
+  showLoadingIcon: boolean;
   showCancelButton: boolean;
   showContinueButton: boolean;
 
@@ -29,6 +30,7 @@ export class GenericModalComponent {
     this.image = data.image;
     this.continueButtonText = data.continueButtonText || 'Doorgaan';
     this.cancelButtonText = data.cancelButtonText || 'Annuleren';
+    this.showLoadingIcon = data.showLoadingIcon ?? false;
     this.showCancelButton = data.showCancelButton ?? true;
     this.showContinueButton = data.showContinueButton ?? true;
   }

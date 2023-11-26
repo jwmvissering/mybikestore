@@ -1,4 +1,4 @@
-<div class="container pt-5">
+<div class="container pt-4 pt-sm-5">
   <div class="mb-3">
     <app-back-button [path]="'../'" text="Back to bike details"></app-back-button>
   </div>
@@ -7,7 +7,9 @@
     <h1 class="mb-3">{{ bike?.name ? 'Edit ' + bike?.name : 'Bike not found' }}</h1>
   </div>
 
-  <div *ngIf="bike" class="bg-white mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2">
-    <app-bike-form [bike]="bike" [form]="form" (submitEvent)="updateBike($event)"></app-bike-form>
+  <div *ngIf="bike" class="white-bg-with-image">
+    <div class="mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2 position-relative">
+      <app-bike-form [bike]="bike" [form]="form" (submitEvent)="updateBike($event)"></app-bike-form>
+    </div>
   </div>
 </div>

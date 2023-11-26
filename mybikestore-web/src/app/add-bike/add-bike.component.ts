@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {BackButtonComponent} from "../shared/components/back-button/back-button.component";
 import {BikeFormComponent, BikeFormSubmitEvent} from "../shared/components/bike-form/bike-form.component";
-import {FormGroup} from "@angular/forms";
+import {FormGroup, Validators} from "@angular/forms";
 import {BikeService} from "../shared/services/bike.service";
 import {snackBarClass, SnackbarService} from "../shared/services/snackbar.service";
 import {BikeModel} from "../shared/models/bike.model";
@@ -28,6 +28,7 @@ export class AddBikeComponent implements OnInit {
 
   createForm(): void {
     this.form = this.bikeService.createForm();
+    this.form.get('image')?.setValidators([Validators.required]);
   }
 
   createBike(eventData: BikeFormSubmitEvent): void {

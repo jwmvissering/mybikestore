@@ -2,28 +2,39 @@
 @import "bootstrap/scss/mixins/breakpoints";
 
 .statistics-block {
-  box-shadow: 0 16px 20px -6px rgba(44, 44, 67, 0.1);
+  box-shadow: $box-shadow;
   border-radius: 12px;
-  padding: 16px 16px;
+  padding: 16px;
+  @include media-breakpoint-down(sm){
+    padding: 10px;
+  }
 
-  .icon {
+  .icon-container {
     font-size: 1.1rem;
     background-color: white;
     padding: 8px;
     border-radius: 6px;
-    margin-bottom: 12px;
+    @include media-breakpoint-down(sm){
+      padding: 6px;
+    }
+    @include media-breakpoint-up(sm){
+      margin-bottom: 12px;
+    }
   }
 
   .amount {
     font-weight: 500;
-    font-size: 2rem;
     color: white;
+    font-size: 2rem;
+    @include media-breakpoint-down(sm){
+      font-size: 1.2rem;
+    }
   }
 
   &.green {
     background-color: $green-dark;
 
-    .icon {
+    .icon-container {
       color: $green-dark;
     }
 
@@ -31,7 +42,7 @@
       color: rgba(#fff, .8);
     }
 
-    @include media-breakpoint-up(xl) {
+    @include media-breakpoint-up(md) {
       min-width: 230px;
     }
   }
@@ -39,12 +50,12 @@
   &.yellow {
     background-color: $yellow;
 
-    .icon {
-      color: darken($yellow,5);
+    .icon-container {
+      color: darken($yellow, 15);
     }
 
-    .amount {
-      color: $body-color;
+    .text-darker {
+      color: rgba($body-color, .85);
     }
 
     .title {
@@ -55,7 +66,7 @@
   &.red {
     background-color: $red;
 
-    .icon {
+    .icon-container {
       color: $red;
     }
 
@@ -64,7 +75,12 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(md) {
     min-width: 180px;
   }
+}
+
+.toggle-icon {
+  font-size: 1.5rem;
+  padding-top: 0.55rem;
 }

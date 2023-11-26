@@ -1,69 +1,81 @@
-<div class="container pt-5">
+<div class="container pt-4 pt-sm-5">
   <div class="mb-3">
     <app-back-button></app-back-button>
   </div>
 
-  <div class="d-flex justify-content-between align-items-center">
-    <h1 class="mb-3">{{ bike?.name ?? 'Bike not found' }}</h1>
-    <div *ngIf="bike" class="d-flex align-items-center gap-4 mb-3">
-      {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
-      <a (click)="deleteBike()" type="button"><i class="fa-solid fa-trash-can text-danger"></i></a>
-      <a routerLink="edit" class="btn btn-blue-light">Edit bike</a>
+  <div class="row justify-content-between align-items-center mb-3">
+    <div class="col-12 col-lg">
+      <h1 class="mb-0">{{ bike?.name ?? 'Bike not found' }}</h1>
+    </div>
+    <div class="col-12 col-lg-auto">
+      <div *ngIf="bike" class="row align-items-center gx-4">
+        <div class="col">
+          {{ bike.quantity_in_stock > 0 ? 'In stock' : 'Out of stock' }}
+        </div>
+        <div class="col-auto">
+          <a (click)="deleteBike()" type="button"><i class="fa-solid fa-trash-can text-danger"></i></a>
+        </div>
+        <div class="col-auto">
+          <a routerLink="edit" class="btn btn-blue-light">Edit bike</a>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div *ngIf="bike" class="bg-white mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2">
-    <div class="row gx-5">
-      <div class="col-xl-3">
-        <div class="item-image-xl mb-5">
-          <a (click)="openImageDialog()" class="cursor-pointer">
-            <img [src]="bike.image" [alt]="bike.name">
-          </a>
-        </div>
-        <div class="mb-2">
-          <label class="label-primary">Quantity in stock</label>
-          <div class="d-flex gap-2 mb-2 align-items-center user-select-none">
-            <button (click)="lowerQuantity()" type="button" class="btn btn-primary quantity-btn"
-                    [disabled]="bike.quantity_in_stock === 0">-
-            </button>
-            <div class="display-6">{{ bike.quantity_in_stock }}</div>
-            <button (click)="addQuantity()" type="button" class="btn btn-primary quantity-btn"
-                    [disabled]="bike.quantity_in_stock === 9999">+
-            </button>
+  <div class="white-bg-with-image">
+    <div *ngIf="bike" class="mt-2 mb-5 p-3 py-lg-5 px-lg-4 rounded-2 position-relative">
+      <div class="row gx-5">
+        <div class="col-lg-4">
+          <div class="bike-image-container user-select-none mb-5">
+            <a (click)="openImageDialog()" class="cursor-pointer">
+              <app-bike-image [imagePath]="bike?.image"></app-bike-image>
+            </a>
           </div>
           <div class="mb-2">
-            <label class="label-primary">Price</label>
-            <div class="display-6">{{ bike.price | currency:'CAD' }}</div>
+            <label class="label-primary">Quantity in stock</label>
+            <div class="d-flex gap-2 mb-2 align-items-center user-select-none">
+              <button (click)="lowerQuantity()" type="button" class="btn btn-primary quantity-btn"
+                      [disabled]="bike.quantity_in_stock === 0">-
+              </button>
+              <div class="display-6">{{ bike.quantity_in_stock }}</div>
+              <button (click)="addQuantity()" type="button" class="btn btn-primary quantity-btn"
+                      [disabled]="bike.quantity_in_stock === 9999">+
+              </button>
+            </div>
+            <div class="mb-2">
+              <label class="label-primary">Price</label>
+              <div class="display-6">{{ bike.price | currency:'CAD' }}</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col">
-        <div class="mb-2">
-          <label class="label-primary">Brand</label>
-          <div class="value">{{ bike.brand.name }}</div>
-        </div>
-        <div class="mb-2">
-          <label class="label-primary">Model</label>
-          <div class="value">{{ bike.model }}</div>
-        </div>
-        <div class="mb-2">
-          <label class="label-primary">Bike type</label>
-          <div class="value">{{ bike.category.name }}</div>
-        </div>
-        <div class="mb-2">
-          <label class="label-primary">Description</label>
-          <p [innerHTML]="bike.description"></p>
-        </div>
-        <ng-container *ngIf="bike.category?.name === CategoryName.electric">
+        <div class="col">
           <div class="mb-2">
-            <label class="label-primary">Motor</label>
-            <div class="value">{{ bike.wh_of_motor }} watt</div>
+            <label class="label-primary">Brand</label>
+            <div class="value">{{ bike.brand.name }}</div>
           </div>
           <div class="mb-2">
-            <label class="label-primary">Range</label>
-            <div class="value">{{ bike.range_in_km }} km</div>
+            <label class="label-primary">Model</label>
+            <div class="value">{{ bike.model }}</div>
           </div>
-        </ng-container>
+          <div class="mb-2">
+            <label class="label-primary">Bike type</label>
+            <div class="value">{{ bike.category.name }}</div>
+          </div>
+          <div class="mb-2">
+            <label class="label-primary">Description</label>
+            <p [innerHTML]="bike.description"></p>
+          </div>
+          <ng-container *ngIf="bike.category?.name === CategoryName.electric">
+            <div class="mb-2">
+              <label class="label-primary">Motor</label>
+              <div class="value">{{ bike.wh_of_motor }} watt</div>
+            </div>
+            <div class="mb-2">
+              <label class="label-primary">Range</label>
+              <div class="value">{{ bike.range_in_km }} km</div>
+            </div>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

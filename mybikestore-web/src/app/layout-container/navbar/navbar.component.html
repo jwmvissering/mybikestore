@@ -4,7 +4,8 @@
       <a class="navbar-brand" routerLink="">
         <img src="../../../assets/images/MyBikeStore_logo_2.png" alt="My Bike Store logo" class="logo">
       </a>
-      <div class="d-flex align-items-center">
+      <div class="d-flex gap-2 align-items-center">
+        <a (click)="resetData()" class="btn btn-blue-dark">Reset <span class="d-none d-sm-inline-block">data</span></a>
         <a routerLink="/inventory/add/" class="btn btn-blue-light">Add bicycle</a>
       </div>
     </div>

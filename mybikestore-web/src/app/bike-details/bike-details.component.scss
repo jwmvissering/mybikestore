@@ -1,8 +1,12 @@
-.item-image-xl {
-  position: relative;
-  img{
-    max-width: 100%;
-  }
+@import "variables";
+
+.bike-image-container {
+  max-height: 300px;
+  max-width: 432px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: $box-shadow;
+  border: 1px solid $gray-300;
 }
 
 .quantity-btn {
