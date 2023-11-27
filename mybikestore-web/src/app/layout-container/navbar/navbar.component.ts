@@ -44,7 +44,8 @@ export class NavbarComponent {
           },
           width: '400px',
           maxWidth: '90vw',
-          maxHeight: '80vh'
+          maxHeight: '80vh',
+          disableClose: true
         });
         this.bikeService.runBackendSeeders().subscribe(() => {
           this.bikeService.getBikesFromApi().subscribe(() => {
