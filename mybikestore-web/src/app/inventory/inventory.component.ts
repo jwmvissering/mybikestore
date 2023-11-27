@@ -30,15 +30,12 @@ export class InventoryComponent implements OnInit {
     this.bikeService.forceRefresh();
     this.loading = true;
 
-    // take(2) because it first gets the already loaded data (if available), and when the 'forced' request in the background succeeds, it gets the new data.
-    this.bikeService.getBikes(true)
-      .pipe(take(2))
-      .subscribe((bikes: BikeModel[]) => {
-        this.bikes = bikes;
-        this.loading = false;
-        this.bikeService.getFilters().subscribe(filters => {
-          this.hasFilters = Object.values(filters).some(value => !!value);
-        })
-      });
+    this.bikeService.getBikes(true).subscribe((bikes: BikeModel[]) => {
+      this.bikes = bikes;
+      this.loading = false;
+      this.bikeService.getFilters().subscribe(filters => {
+        this.hasFilters = Object.values(filters).some(value => !!value);
+      })
+    });
   }
 }
