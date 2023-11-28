@@ -2,9 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.2.
 
-## Install Angular CLI
+## Installation
 
-If you haven't installed Angular CLI yet, please run `npm install -g @angular/cli` to install it globally.
+Run `npm install -g @angular/cli` if you haven't installed Angular CLI yet.
+
+Run `npm install` in the root folder of the project to install the packages.
+
 
 ## Development server
 
